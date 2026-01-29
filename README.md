@@ -116,7 +116,7 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 5. Transfer the CSV file to your computer
 6. Upload it to Porsche EV Insights
 
-The app supports both **"Since Start"** and **"Since Charge"** CSV exports, with automatic detection of Portuguese and English formats.
+The app supports both **"Since Start"** and **"Since Charge"** CSV exports (maximum 12 months limited by Porsche Connect).
 
 ## Tech Stack
 
@@ -152,5 +152,5 @@ MIT License - feel free to use this project for personal or commercial purposes.
 ---
 
 <p align="center">
-  Made with care for Taycan owners by <a href="https://github.com/jpleite">jpleite</a>
+  Made with care for Taycan and Macan EV owners by <a href="https://github.com/jpleite">jpleite</a>
 </p>
