@@ -2,6 +2,8 @@ import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, L
 import { StatCard } from '../common/StatCard';
 import { ChartCard } from '../common/ChartCard';
 import { precise } from '../../utils/precise';
+import { unitConvert } from '../../utils/unitConvert';
+import { L_TO_UK_GAL, L_TO_US_GAL } from '../../constants/units';
 
 export function CostsTab({
   data,
@@ -11,8 +13,35 @@ export function CostsTab({
   costs,
   electricityPrice,
   petrolPrice,
-  petrolConsumption
+  petrolConsumption,
+  unitSystem,
+  fuelConsFormat
 }) {
+  const isImperial = unitSystem.startsWith('imperial');
+  const isUK = unitSystem === 'imperial_uk';
+
+  // Convert petrol consumption to L/100km for internal calculations
+  let petrolConsL100km;
+  if (fuelConsFormat === 'mpg') {
+    petrolConsL100km = isUK
+      ? unitConvert.mpgUkToL100km(petrolConsumption)
+      : unitConvert.mpgUsToL100km(petrolConsumption);
+  } else if (fuelConsFormat === 'km/L') {
+    petrolConsL100km = unitConvert.kmLToL100km(petrolConsumption);
+  } else {
+    petrolConsL100km = petrolConsumption;
+  }
+
+  // Convert petrol price to $/L for internal calculations
+  let petrolPricePerL;
+  if (isImperial) {
+    petrolPricePerL = isUK
+      ? precise.mul(petrolPrice, L_TO_UK_GAL)
+      : precise.mul(petrolPrice, L_TO_US_GAL);
+  } else {
+    petrolPricePerL = petrolPrice;
+  }
+
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -27,7 +56,7 @@ export function CostsTab({
             <BarChart data={data.monthlyData.map(m => ({
               ...m,
               electricCost: Math.round(precise.mul(precise.mul(precise.div(m.distance, 100), m.consumption), electricityPrice)),
-              petrolCost: Math.round(precise.mul(precise.mul(precise.div(m.distance, 100), petrolConsumption), petrolPrice))
+              petrolCost: Math.round(precise.mul(precise.mul(precise.div(m.distance, 100), petrolConsL100km), petrolPricePerL))
             }))}>
               <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
               <XAxis dataKey="month" stroke={chartColors.axis} fontSize={11} />
@@ -43,7 +72,7 @@ export function CostsTab({
           <ResponsiveContainer width="100%" height={260}>
             <AreaChart data={data.monthlyData.reduce((acc, m, i) => {
               const elec = precise.mul(precise.mul(precise.div(m.distance, 100), m.consumption), electricityPrice);
-              const pet = precise.mul(precise.mul(precise.div(m.distance, 100), petrolConsumption), petrolPrice);
+              const pet = precise.mul(precise.mul(precise.div(m.distance, 100), petrolConsL100km), petrolPricePerL);
               const sav = precise.sub(pet, elec);
               const prev = i > 0 ? acc[i - 1].cumRaw : 0;
               const cumRaw = precise.add(prev, sav);

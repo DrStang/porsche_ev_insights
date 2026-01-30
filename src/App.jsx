@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart, Line } from 'recharts';
 
 // Constants
-import { UNIT_SYSTEMS, CURRENCIES, FUEL_CONSUMPTION_FORMATS, ELECTRIC_CONSUMPTION_FORMATS, MI_TO_KM } from './constants/units';
+import { UNIT_SYSTEMS, CURRENCIES, FUEL_CONSUMPTION_FORMATS, ELECTRIC_CONSUMPTION_FORMATS, MI_TO_KM, L_TO_UK_GAL, L_TO_US_GAL } from './constants/units';
 import { SAMPLE_DATA } from './constants/sampleData';
 import { TAYCAN_SPECS } from './constants/taycanSpecs';
 import { STORAGE_KEYS } from './constants/storageKeys';
@@ -308,11 +308,36 @@ export default function App() {
   const costs = useMemo(() => {
     if (!data) return null;
     const isImperial = unitSystem.startsWith('imperial');
+    const isUK = unitSystem === 'imperial_uk';
+
+    // Convert petrol consumption to L/100km for internal calculations
+    let petrolConsL100km;
+    if (fuelConsFormat === 'mpg') {
+      petrolConsL100km = isUK
+        ? unitConvert.mpgUkToL100km(petrolConsumption)
+        : unitConvert.mpgUsToL100km(petrolConsumption);
+    } else if (fuelConsFormat === 'km/L') {
+      petrolConsL100km = unitConvert.kmLToL100km(petrolConsumption);
+    } else {
+      petrolConsL100km = petrolConsumption; // Already L/100km
+    }
+
+    // Convert petrol price to $/L for internal calculations
+    let petrolPricePerL;
+    if (isImperial) {
+      // Price is per gallon, convert to per liter
+      petrolPricePerL = isUK
+        ? precise.mul(petrolPrice, L_TO_UK_GAL)
+        : precise.mul(petrolPrice, L_TO_US_GAL);
+    } else {
+      petrolPricePerL = petrolPrice; // Already per liter
+    }
+
     const electricCostRaw = precise.mul(data.summary.totalEnergy, electricityPrice);
-    const petrolCostRaw = precise.mul(precise.mul(precise.div(data.summary.totalDistance, 100), petrolConsumption), petrolPrice);
+    const petrolCostRaw = precise.mul(precise.mul(precise.div(data.summary.totalDistance, 100), petrolConsL100km), petrolPricePerL);
     const savingsRaw = precise.sub(petrolCostRaw, electricCostRaw);
     const costPerKmElectric = precise.mul(precise.div(data.summary.avgConsumption, 100), electricityPrice);
-    const costPerKmPetrol = precise.mul(precise.div(petrolConsumption, 100), petrolPrice);
+    const costPerKmPetrol = precise.mul(precise.div(petrolConsL100km, 100), petrolPricePerL);
     const costPerDistElectric = isImperial ? precise.mul(costPerKmElectric, MI_TO_KM) : costPerKmElectric;
     const costPerDistPetrol = isImperial ? precise.mul(costPerKmPetrol, MI_TO_KM) : costPerKmPetrol;
     return {
@@ -323,14 +348,27 @@ export default function App() {
       costPerDistPetrol: precise.round(costPerDistPetrol, 3),
       savingsRate: petrolCostRaw > 0 ? Math.round((1 - electricCostRaw / petrolCostRaw) * 100) : 0
     };
-  }, [data, electricityPrice, petrolPrice, petrolConsumption, unitSystem]);
+  }, [data, electricityPrice, petrolPrice, petrolConsumption, unitSystem, fuelConsFormat]);
 
   // ========== ENVIRONMENTAL IMPACT CALCULATIONS ==========
   const environmental = useMemo(() => {
     if (!data) return null;
+    const isUK = unitSystem === 'imperial_uk';
+
+    // Convert petrol consumption to L/100km for internal calculations
+    let petrolConsL100km;
+    if (fuelConsFormat === 'mpg') {
+      petrolConsL100km = isUK
+        ? unitConvert.mpgUkToL100km(petrolConsumption)
+        : unitConvert.mpgUsToL100km(petrolConsumption);
+    } else if (fuelConsFormat === 'km/L') {
+      petrolConsL100km = unitConvert.kmLToL100km(petrolConsumption);
+    } else {
+      petrolConsL100km = petrolConsumption; // Already L/100km
+    }
 
     const co2Electric = precise.mul(data.summary.totalEnergy, TAYCAN_SPECS.co2PerKwhPortugal);
-    const litersUsed = precise.mul(precise.div(data.summary.totalDistance, 100), petrolConsumption);
+    const litersUsed = precise.mul(precise.div(data.summary.totalDistance, 100), petrolConsL100km);
     const co2Petrol = precise.mul(litersUsed, TAYCAN_SPECS.co2PerLiterPetrol);
     const co2Saved = precise.sub(co2Petrol, co2Electric);
     const co2SavedKg = precise.div(co2Saved, 1000);
@@ -351,7 +389,7 @@ export default function App() {
       reductionPct,
       litersAvoided: precise.round(litersUsed, 1)
     };
-  }, [data, petrolConsumption]);
+  }, [data, petrolConsumption, unitSystem, fuelConsFormat]);
 
   // ========== BATTERY & RANGE ANALYSIS ==========
   const batteryAnalysis = useMemo(() => {
@@ -873,6 +911,8 @@ export default function App() {
                   electricityPrice={electricityPrice}
                   petrolPrice={petrolPrice}
                   petrolConsumption={petrolConsumption}
+                  unitSystem={unitSystem}
+                  fuelConsFormat={fuelConsFormat}
                 />
               )}
 
@@ -885,6 +925,7 @@ export default function App() {
                   chartColors={chartColors}
                   petrolConsumption={petrolConsumption}
                   unitSystem={unitSystem}
+                  fuelConsFormat={fuelConsFormat}
                 />
               )}
 

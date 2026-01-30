@@ -2,6 +2,7 @@ import { BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, L
 import { StatCard } from '../common/StatCard';
 import { ChartCard } from '../common/ChartCard';
 import { precise } from '../../utils/precise';
+import { unitConvert } from '../../utils/unitConvert';
 import { TAYCAN_SPECS } from '../../constants/taycanSpecs';
 import { MI_TO_KM } from '../../constants/units';
 
@@ -12,8 +13,22 @@ export function EnvironmentalTab({
   chartColors,
   environmental,
   petrolConsumption,
-  unitSystem
+  unitSystem,
+  fuelConsFormat
 }) {
+  const isUK = unitSystem === 'imperial_uk';
+
+  // Convert petrol consumption to L/100km for internal calculations
+  let petrolConsL100km;
+  if (fuelConsFormat === 'mpg') {
+    petrolConsL100km = isUK
+      ? unitConvert.mpgUkToL100km(petrolConsumption)
+      : unitConvert.mpgUsToL100km(petrolConsumption);
+  } else if (fuelConsFormat === 'km/L') {
+    petrolConsL100km = unitConvert.kmLToL100km(petrolConsumption);
+  } else {
+    petrolConsL100km = petrolConsumption;
+  }
   return (
     <div className="space-y-5">
       {/* Environmental Hero Card */}
@@ -70,7 +85,7 @@ export function EnvironmentalTab({
             <BarChart data={data.monthlyData.map(m => {
               const energy = precise.mul(precise.div(m.distance, 100), m.consumption);
               const co2Elec = precise.round(precise.div(precise.mul(energy, TAYCAN_SPECS.co2PerKwhPortugal), 1000), 1);
-              const liters = precise.mul(precise.div(m.distance, 100), petrolConsumption);
+              const liters = precise.mul(precise.div(m.distance, 100), petrolConsL100km);
               const co2Pet = precise.round(precise.div(precise.mul(liters, TAYCAN_SPECS.co2PerLiterPetrol), 1000), 1);
               return { ...m, co2Electric: co2Elec, co2Petrol: co2Pet };
             })}>
@@ -89,7 +104,7 @@ export function EnvironmentalTab({
             <AreaChart data={data.monthlyData.reduce((acc, m, i) => {
               const energy = precise.mul(precise.div(m.distance, 100), m.consumption);
               const co2Elec = precise.mul(energy, TAYCAN_SPECS.co2PerKwhPortugal);
-              const liters = precise.mul(precise.div(m.distance, 100), petrolConsumption);
+              const liters = precise.mul(precise.div(m.distance, 100), petrolConsL100km);
               const co2Pet = precise.mul(liters, TAYCAN_SPECS.co2PerLiterPetrol);
               const saved = precise.sub(co2Pet, co2Elec);
               const prev = i > 0 ? acc[i - 1].cumRaw : 0;

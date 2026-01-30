@@ -22,6 +22,11 @@ export const unitConvert = {
   l100kmToMpgUk: (l100km) => l100km > 0 ? precise.div(UK_GAL_TO_L * 100, l100km * MI_TO_KM) : 0,
   l100kmToMpgUs: (l100km) => l100km > 0 ? precise.div(US_GAL_TO_L * 100, l100km * MI_TO_KM) : 0,
 
+  // Fuel consumption conversions (to L/100km)
+  mpgUkToL100km: (mpg) => mpg > 0 ? precise.div(UK_GAL_TO_L * 100, mpg * MI_TO_KM) : 0,
+  mpgUsToL100km: (mpg) => mpg > 0 ? precise.div(US_GAL_TO_L * 100, mpg * MI_TO_KM) : 0,
+  kmLToL100km: (kmL) => kmL > 0 ? precise.div(100, kmL) : 0,
+
   // Electric consumption conversions (from kWh/100km)
   // Metric formats
   kwh100kmToKmKwh: (kwh100km) => kwh100km > 0 ? precise.div(100, kwh100km) : 0,
