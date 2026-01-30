@@ -1230,8 +1230,8 @@ export default function App() {
                 </svg>
               </div>
               <div>
-                <h1 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-zinc-900'}`}>Taycan Trip Analyzer</h1>
-                <p className={`text-xs ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>Porsche EV Analytics</p>
+                <h1 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-zinc-900'}`}>Porsche EV Insights</h1>
+                <p className={`text-xs ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>EV Trip Analytics</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -1572,7 +1572,7 @@ export default function App() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 14.5h16M7 14.5V13c0-.5.5-1.5 1-2l2-2.5c.5-.5 1.5-1 2.5-1h3c1 0 1.8.3 2.2.7l1.8 1.8c.5.5 1 1.5 1 2.5v2M7 14.5c0-1-.5-2-1.5-2H4c-.5 0-1 .5-1 1v1.5" />
                 </svg>
               </div>
-              <h2 className={`text-xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-zinc-900'}`}>Welcome to Taycan Trip Analyzer</h2>
+              <h2 className={`text-xl font-bold mb-2 ${darkMode ? 'text-white' : 'text-zinc-900'}`}>Welcome to Porsche EV Insights</h2>
               <p className={`mb-6 max-w-md mx-auto text-sm ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>Upload your Porsche Connect CSV exports to analyze your driving patterns.</p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <button onClick={() => setShowUpload(true)} className="px-5 py-2.5 rounded-xl bg-sky-500 text-white font-bold"><span className="inline-flex items-center gap-2"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" /></svg>Upload Your Data</span></button>
@@ -2311,7 +2311,7 @@ export default function App() {
 
       <footer className={`border-t mt-8 ${darkMode ? 'border-zinc-800' : 'border-zinc-200'}`}>
         <div className="max-w-7xl mx-auto px-4 py-4 space-y-1">
-          <p className={`text-xs text-center ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>Taycan Trip Analyzer • Local-first • Privacy-first • No data leaves your device</p>
+          <p className={`text-xs text-center ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>Porsche EV Trips Insights • Local-first • Privacy-first • No data leaves your device</p>
           <p className={`text-xs text-center ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>
             Developed by <a href="https://github.com/jpleite/porsche_ev_insights" target="_blank" rel="noopener noreferrer" className={`underline hover:${darkMode ? 'text-zinc-300' : 'text-zinc-700'}`}>jpleite</a> • 2026 v1.0 Beta
           </p>
