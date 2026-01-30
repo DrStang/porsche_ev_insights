@@ -880,20 +880,25 @@ export default function App() {
 
   const costs = useMemo(() => {
     if (!data) return null;
+    const isImperial = unitSystem.startsWith('imperial');
     const electricCostRaw = precise.mul(data.summary.totalEnergy, electricityPrice);
     const petrolCostRaw = precise.mul(precise.mul(precise.div(data.summary.totalDistance, 100), petrolConsumption), petrolPrice);
     const savingsRaw = precise.sub(petrolCostRaw, electricCostRaw);
+    // Cost per km (base calculation)
     const costPerKmElectric = precise.mul(precise.div(data.summary.avgConsumption, 100), electricityPrice);
     const costPerKmPetrol = precise.mul(precise.div(petrolConsumption, 100), petrolPrice);
+    // Convert to per-mile if imperial (cost per mile = cost per km * MI_TO_KM since 1 mi = 1.609 km)
+    const costPerDistElectric = isImperial ? precise.mul(costPerKmElectric, MI_TO_KM) : costPerKmElectric;
+    const costPerDistPetrol = isImperial ? precise.mul(costPerKmPetrol, MI_TO_KM) : costPerKmPetrol;
     return {
       electricCost: precise.round(electricCostRaw, 2),
       petrolCost: precise.round(petrolCostRaw, 2),
       savings: precise.round(savingsRaw, 2),
-      costPerKmElectric: precise.round(costPerKmElectric, 3),
-      costPerKmPetrol: precise.round(costPerKmPetrol, 3),
+      costPerDistElectric: precise.round(costPerDistElectric, 3),
+      costPerDistPetrol: precise.round(costPerDistPetrol, 3),
       savingsRate: petrolCostRaw > 0 ? Math.round((1 - electricCostRaw / petrolCostRaw) * 100) : 0
     };
-  }, [data, electricityPrice, petrolPrice, petrolConsumption]);
+  }, [data, electricityPrice, petrolPrice, petrolConsumption, unitSystem]);
 
   // ========== ENVIRONMENTAL IMPACT CALCULATIONS ==========
   const environmental = useMemo(() => {
@@ -1186,6 +1191,9 @@ export default function App() {
     if (!data) return null;
 
     const insights = [];
+    const isImperial = unitSystem.startsWith('imperial');
+    const distUnit = UNIT_SYSTEMS[unitSystem].distance;
+    const speedUnit = UNIT_SYSTEMS[unitSystem].speed;
 
     // Commute detection
     const morningTrips = data.hourData.filter(h => ['07', '08'].includes(h.hour)).reduce((s, h) => s + h.trips, 0);
@@ -1203,13 +1211,14 @@ export default function App() {
       });
     }
 
-    // Short trip warning
+    // Short trip warning (10km = 6mi)
+    const shortTripThreshold = isImperial ? 6 : 10;
     if (data.summary.shortTripsPct > 40) {
       insights.push({
         type: 'efficiency',
         iconName: 'warning',
         title: 'High Short-Trip Usage',
-        description: `${data.summary.shortTripsPct}% of trips are under 10km. Short trips use ${Math.round((30.4 / 23.7 - 1) * 100)}% more energy per km. Consider combining errands.`,
+        description: `${data.summary.shortTripsPct}% of trips are under ${shortTripThreshold}${distUnit}. Short trips use ${Math.round((30.4 / 23.7 - 1) * 100)}% more energy per ${distUnit}. Consider combining errands.`,
         severity: 'warning'
       });
     }
@@ -1218,11 +1227,13 @@ export default function App() {
     const saturdayData = data.dayData.find(d => d.day === 'Sat');
     const weekdayAvgDist = data.dayData.filter(d => !['Sat', 'Sun'].includes(d.day)).reduce((s, d) => s + d.avgDist, 0) / 5;
     if (saturdayData && saturdayData.avgDist > weekdayAvgDist * 2) {
+      const satDist = isImperial ? Math.round(unitConvert.kmToMi(saturdayData.avgDist)) : saturdayData.avgDist;
+      const weekdayDist = isImperial ? Math.round(unitConvert.kmToMi(weekdayAvgDist)) : Math.round(weekdayAvgDist);
       insights.push({
         type: 'pattern',
         iconName: 'patterns',
         title: 'Weekend Road-Tripper',
-        description: `Saturday trips average ${saturdayData.avgDist}km vs ${Math.round(weekdayAvgDist)}km on weekdays. Longer trips are more efficient!`,
+        description: `Saturday trips average ${satDist}${distUnit} vs ${weekdayDist}${distUnit} on weekdays. Longer trips are more efficient!`,
         severity: 'success'
       });
     }
@@ -1235,26 +1246,34 @@ export default function App() {
       const summerAvg = summerData.reduce((s, m) => s + m.consumption, 0) / summerData.length;
       const winterImpact = Math.round(((winterAvg / summerAvg) - 1) * 100);
       if (winterImpact > 10) {
+        // Convert consumption values based on selected format
+        const winterConsFormatted = units.elecCons(winterAvg).formatted;
+        const summerConsFormatted = units.elecCons(summerAvg).formatted;
         insights.push({
           type: 'seasonal',
           iconName: 'snowflake',
           title: 'Winter Efficiency Drop',
-          description: `Winter consumption is ${winterImpact}% higher than summer (${precise.round(winterAvg, 1)} vs ${precise.round(summerAvg, 1)} kWh/100km). Use seat heating over cabin heating.`,
+          description: `Winter consumption is ${winterImpact}% higher than summer (${winterConsFormatted} vs ${summerConsFormatted}). Use seat heating over cabin heating.`,
           severity: 'warning'
         });
       }
     }
 
-    // Efficiency sweet spot
+    // Efficiency sweet spot - convert speed range and consumption
     const optimalSpeed = data.speedEfficiency.reduce((best, curr) =>
       curr.consumption < best.consumption && curr.trips > 5 ? curr : best
     , data.speedEfficiency[0]);
+
+    // Convert the speed range label (optimalSpeed.range is like '40-60 km/h')
+    const speedRangeConverted = speedRangeLabels[optimalSpeed.range] || optimalSpeed.range;
+    const optimalConsFormatted = units.elecCons(optimalSpeed.consumption).formatted;
+    const efficiencyGain = Math.round((1 - optimalSpeed.consumption / data.summary.avgConsumption) * 100);
 
     insights.push({
       type: 'tip',
       iconName: 'lightbulb',
       title: 'Your Efficiency Sweet Spot',
-      description: `Best efficiency at ${optimalSpeed.range} km/h (${optimalSpeed.consumption} kWh/100km). This is ${Math.round((1 - optimalSpeed.consumption / data.summary.avgConsumption) * 100)}% better than your average.`,
+      description: `Best efficiency at ${speedRangeConverted} (${optimalConsFormatted}). This is ${efficiencyGain}% better than your average.`,
       severity: 'success'
     });
 
@@ -1283,7 +1302,7 @@ export default function App() {
       morningTrips,
       eveningTrips
     };
-  }, [data]);
+  }, [data, unitSystem, units, speedRangeLabels]);
 
   const handleFileUpload = useCallback((file, type) => {
     const reader = new FileReader();
@@ -2239,8 +2258,8 @@ export default function App() {
             {activeTab === 'costs' && costs && (
               <div className="space-y-5">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  <StatCard darkMode={darkMode} label="Electric Cost" value={units.money(costs.electricCost)} subtitle={`${units.money(costs.costPerKmElectric)}/${units.distUnit}`} color="emerald" />
-                  <StatCard darkMode={darkMode} label="Petrol Equivalent" value={units.money(costs.petrolCost)} subtitle={`${units.money(costs.costPerKmPetrol)}/${units.distUnit}`} color="red" />
+                  <StatCard darkMode={darkMode} label="Electric Cost" value={units.money(costs.electricCost)} subtitle={`${units.money(costs.costPerDistElectric)}/${units.distUnit}`} color="emerald" />
+                  <StatCard darkMode={darkMode} label="Petrol Equivalent" value={units.money(costs.petrolCost)} subtitle={`${units.money(costs.costPerDistPetrol)}/${units.distUnit}`} color="red" />
                   <StatCard darkMode={darkMode} label="Total Savings" value={units.money(costs.savings)} subtitle="vs petrol" color="sky" />
                   <StatCard darkMode={darkMode} label="Savings Rate" value={`${costs.savingsRate}%`} subtitle="cheaper" color="blue" />
                 </div>
