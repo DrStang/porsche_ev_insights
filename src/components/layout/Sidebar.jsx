@@ -1,7 +1,10 @@
 import { icons } from '../icons/Icons';
 import { tabs } from '../../constants/tabs';
+import { useTranslation } from '../../i18n';
 
 export function Sidebar({ activeTab, setActiveTab, showSettings, setShowSettings, darkMode, setDarkMode }) {
+  const { t } = useTranslation();
+
   return (
     <aside className="hidden lg:block w-56 flex-shrink-0 py-6 pl-4">
       <div className={`sticky top-20 p-4 rounded-xl border ${darkMode ? 'bg-zinc-900/50 border-zinc-800' : 'bg-white border-zinc-200 shadow-sm'}`}>
@@ -23,7 +26,7 @@ export function Sidebar({ activeTab, setActiveTab, showSettings, setShowSettings
               }`}
             >
               {icons[tab.id]}
-              <span>{tab.label}</span>
+              <span>{t(`tabs.${tab.id}`)}</span>
             </button>
           ))}
         </nav>
@@ -44,7 +47,7 @@ export function Sidebar({ activeTab, setActiveTab, showSettings, setShowSettings
             }`}
           >
             {icons.settings}
-            <span>Settings</span>
+            <span>{t('common.settings')}</span>
           </button>
 
           {/* Dark mode toggle */}
@@ -57,7 +60,7 @@ export function Sidebar({ activeTab, setActiveTab, showSettings, setShowSettings
             }`}
           >
             {darkMode ? icons.moon : icons.sun}
-            <span>{darkMode ? 'Dark Mode' : 'Light Mode'}</span>
+            <span>{darkMode ? t('sidebar.darkMode') : t('sidebar.lightMode')}</span>
           </button>
         </div>
       </div>

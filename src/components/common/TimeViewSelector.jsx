@@ -1,4 +1,8 @@
+import { useTranslation } from '../../i18n';
+
 export function TimeViewSelector({ timeView, setTimeView, darkMode }) {
+  const { t } = useTranslation();
+
   return (
     <div className="flex gap-2">
       {['day', 'week', 'month'].map(v => (
@@ -13,7 +17,7 @@ export function TimeViewSelector({ timeView, setTimeView, darkMode }) {
                 : 'bg-zinc-200 text-zinc-600 hover:bg-zinc-300 hover:text-zinc-900'
           }`}
         >
-          By {v}
+          {t(`timeView.${v}`)}
         </button>
       ))}
     </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { icons } from '../icons/Icons';
+import { useTranslation } from '../../i18n';
 
 export function InsightsTab({
   data,
@@ -11,6 +12,8 @@ export function InsightsTab({
   chargingOptimization,
   unitSystem
 }) {
+  const { t } = useTranslation();
+
   return (
     <div className="space-y-5">
       {/* Driving Profile Banner */}
@@ -27,7 +30,7 @@ export function InsightsTab({
                 {benchmarks.drivingProfile}
               </h2>
               <p className={`flex items-center gap-2 ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                Efficiency Rating:
+                {t('insights.efficiencyRating')}:
                 <span className="inline-flex">
                   {[...Array(5)].map((_, i) => (
                     <svg key={i} className={`w-4 h-4 ${i < benchmarks.efficiencyRating ? 'text-sky-500' : (darkMode ? 'text-zinc-600' : 'text-zinc-300')}`} fill="currentColor" viewBox="0 0 24 24">
@@ -39,7 +42,7 @@ export function InsightsTab({
             </div>
           </div>
           <div className={`px-4 py-2 rounded-full ${benchmarks.vsAvgTaycan <= 0 ? (darkMode ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-100 text-emerald-700') : (darkMode ? 'bg-amber-500/20 text-amber-400' : 'bg-amber-100 text-amber-700')}`}>
-            {benchmarks.vsAvgTaycan <= 0 ? `${Math.abs(benchmarks.vsAvgTaycan)}% better` : `${benchmarks.vsAvgTaycan}% higher`} than {benchmarks.avgVehicleName || 'avg Porsche'}
+            {benchmarks.vsAvgTaycan <= 0 ? `${Math.abs(benchmarks.vsAvgTaycan)}% ${t('benchmark.betterThan')}` : `${benchmarks.vsAvgTaycan}% ${t('benchmark.worseThan')}`} {benchmarks.avgVehicleName || t('benchmark.avgPorsche')}
           </div>
         </div>
       </div>
@@ -72,48 +75,45 @@ export function InsightsTab({
       {/* Predictions Section */}
       <div className={`p-4 rounded-xl border ${darkMode ? 'bg-zinc-900/50 border-zinc-800' : 'bg-white border-zinc-200'}`}>
         <h3 className={`font-medium mb-4 flex items-center gap-2 ${darkMode ? 'text-zinc-300' : 'text-zinc-700'}`}>
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg> Projections & Forecasts
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" /></svg> {t('insights.predictions')}
         </h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
           <div className={`p-3 rounded-xl ${darkMode ? 'bg-zinc-800/50' : 'bg-zinc-50'}`}>
-            <p className="text-xs text-zinc-500">Annual Distance</p>
+            <p className="text-xs text-zinc-500">{t('insights.projectedAnnualDistance')}</p>
             <p className={`text-xl font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{units.dist(predictions.annualDistance).formatted}</p>
-            <p className="text-xs text-zinc-500">projected</p>
           </div>
           <div className={`p-3 rounded-xl ${darkMode ? 'bg-zinc-800/50' : 'bg-zinc-50'}`}>
-            <p className="text-xs text-zinc-500">Annual Trips</p>
+            <p className="text-xs text-zinc-500">{t('insights.projectedAnnualTrips')}</p>
             <p className={`text-xl font-bold ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>{predictions.annualTrips}</p>
-            <p className="text-xs text-zinc-500">projected</p>
           </div>
           <div className={`p-3 rounded-xl ${darkMode ? 'bg-zinc-800/50' : 'bg-zinc-50'}`}>
-            <p className="text-xs text-zinc-500">Annual Energy</p>
+            <p className="text-xs text-zinc-500">{t('insights.projectedAnnualEnergy')}</p>
             <p className={`text-xl font-bold ${darkMode ? 'text-purple-400' : 'text-purple-600'}`}>{predictions.annualEnergy} kWh</p>
-            <p className="text-xs text-zinc-500">projected</p>
           </div>
           <div className={`p-3 rounded-xl ${darkMode ? 'bg-zinc-800/50' : 'bg-zinc-50'}`}>
-            <p className="text-xs text-zinc-500">Annual Savings</p>
+            <p className="text-xs text-zinc-500">{t('insights.projectedAnnualCost')}</p>
             <p className={`text-xl font-bold ${darkMode ? 'text-amber-400' : 'text-amber-600'}`}>{units.money(predictions.annualSavings)}</p>
-            <p className="text-xs text-zinc-500">vs petrol</p>
+            <p className="text-xs text-zinc-500">{t('insights.vsPetrol')}</p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className={`p-4 rounded-xl border ${darkMode ? 'bg-gradient-to-br from-emerald-500/5 to-teal-500/5 border-emerald-500/20' : 'bg-gradient-to-br from-emerald-50 to-teal-50 border-emerald-200'}`}>
-            <p className={`text-sm font-medium ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>5-Year Savings</p>
+            <p className={`text-sm font-medium ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>{t('costs.fiveYearSavings')}</p>
             <p className={`text-3xl font-bold ${darkMode ? 'text-emerald-300' : 'text-emerald-700'}`}>{units.money(predictions.fiveYearSavings)}</p>
-            <p className="text-xs text-zinc-500">{units.dist(predictions.fiveYearDistance).formatted} over 5 years</p>
+            <p className="text-xs text-zinc-500">{units.dist(predictions.fiveYearDistance).formatted}</p>
           </div>
           <div className={`p-4 rounded-xl border ${darkMode ? 'bg-gradient-to-br from-blue-500/5 to-cyan-500/5 border-blue-500/20' : 'bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200'}`}>
-            <p className={`text-sm font-medium ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>Next Month Forecast</p>
+            <p className={`text-sm font-medium ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{t('costs.yearlyProjection')}</p>
             <p className={`text-3xl font-bold ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>{units.dist(predictions.nextMonthDistance).formatted}</p>
-            <p className="text-xs text-zinc-500">~{predictions.nextMonthTrips} trips expected</p>
+            <p className="text-xs text-zinc-500">~{predictions.nextMonthTrips} {t('common.trips')}</p>
           </div>
           <div className={`p-4 rounded-xl border ${darkMode ? 'bg-gradient-to-br from-sky-500/5 to-blue-500/5 border-sky-500/20' : 'bg-gradient-to-br from-sky-50 to-blue-50 border-sky-200'}`}>
-            <p className={`text-sm font-medium ${darkMode ? 'text-sky-400' : 'text-sky-600'}`}>Seasonal Prediction</p>
+            <p className={`text-sm font-medium ${darkMode ? 'text-sky-400' : 'text-sky-600'}`}>{t('battery.seasonalVariation')}</p>
             <p className={`text-lg font-bold ${darkMode ? 'text-sky-300' : 'text-sky-700'}`}>
-              Summer: {units.elecCons(predictions.avgSummerConsumption).formatted}
+              {t('battery.summerRange')}: {units.elecCons(predictions.avgSummerConsumption).formatted}
             </p>
             <p className={`text-lg font-bold ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
-              Winter: {units.elecCons(predictions.avgWinterConsumption).formatted}
+              {t('battery.winterRange')}: {units.elecCons(predictions.avgWinterConsumption).formatted}
             </p>
           </div>
         </div>
@@ -122,39 +122,39 @@ export function InsightsTab({
       {/* Recommendations */}
       <div className={`p-4 rounded-xl border ${darkMode ? 'bg-zinc-900/50 border-zinc-800' : 'bg-white border-zinc-200'}`}>
         <h3 className={`font-medium mb-4 flex items-center gap-2 ${darkMode ? 'text-zinc-300' : 'text-zinc-700'}`}>
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg> Personalized Recommendations
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 001.5-.189m-1.5.189a6.01 6.01 0 01-1.5-.189m3.75 7.478a12.06 12.06 0 01-4.5 0m3.75 2.383a14.406 14.406 0 01-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 10-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg> {t('insights.recommendations')}
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className={`p-3 rounded-lg ${darkMode ? 'bg-zinc-800/50' : 'bg-zinc-50'}`}>
-            <h4 className={`font-medium mb-2 ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}><span className="inline-flex items-center gap-2">{icons.battery}Optimize Charging</span></h4>
+            <h4 className={`font-medium mb-2 ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}><span className="inline-flex items-center gap-2">{icons.battery}{t('battery.chargingOptimization')}</span></h4>
             <ul className={`text-sm space-y-1 ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              <li>• Charge to 80% for daily use, 100% only for long trips</li>
-              <li>• Pre-condition while plugged in to save battery</li>
-              <li>• Use off-peak hours to save ~{units.money(chargingOptimization?.potentialOffPeakSavings || 0)}</li>
+              <li>• {t('insights.chargingRecDaily')}</li>
+              <li>• {t('insights.chargingRecPrecondition')}</li>
+              <li>• {t('battery.offPeakSavings')}: ~{units.money(chargingOptimization?.potentialOffPeakSavings || 0)}</li>
             </ul>
           </div>
           <div className={`p-3 rounded-lg ${darkMode ? 'bg-zinc-800/50' : 'bg-zinc-50'}`}>
-            <h4 className={`font-medium mb-2 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}><span className="inline-flex items-center gap-2">{icons.car}Improve Efficiency</span></h4>
+            <h4 className={`font-medium mb-2 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}><span className="inline-flex items-center gap-2">{icons.car}{t('charts.efficiency')}</span></h4>
             <ul className={`text-sm space-y-1 ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              <li>• Combine short trips when possible</li>
-              <li>• Optimal speed: {unitSystem === 'metric' ? '50-70 km/h' : '30-45 mph'} for best efficiency</li>
-              <li>• Use eco mode in city, normal on highway</li>
+              <li>• {t('insights.efficiencyRecCombine')}</li>
+              <li>• {t('efficiency.optimalSpeed')}: {unitSystem === 'metric' ? '50-70 km/h' : '30-45 mph'}</li>
+              <li>• {t('insights.efficiencyRecEcoMode')}</li>
             </ul>
           </div>
           <div className={`p-3 rounded-lg ${darkMode ? 'bg-zinc-800/50' : 'bg-zinc-50'}`}>
-            <h4 className={`font-medium mb-2 ${darkMode ? 'text-purple-400' : 'text-purple-600'}`}><span className="inline-flex items-center gap-2">{icons.snowflake}Winter Tips</span></h4>
+            <h4 className={`font-medium mb-2 ${darkMode ? 'text-purple-400' : 'text-purple-600'}`}><span className="inline-flex items-center gap-2">{icons.snowflake}{t('insights.winterDrop')}</span></h4>
             <ul className={`text-sm space-y-1 ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              <li>• Use seat/steering heating over cabin heat</li>
-              <li>• Park in garage when possible</li>
-              <li>• Schedule departure to pre-heat while charging</li>
+              <li>• {t('insights.winterRecSeats')}</li>
+              <li>• {t('insights.winterRecGarage')}</li>
+              <li>• {t('insights.winterRecPreheat')}</li>
             </ul>
           </div>
           <div className={`p-3 rounded-lg ${darkMode ? 'bg-zinc-800/50' : 'bg-zinc-50'}`}>
-            <h4 className={`font-medium mb-2 ${darkMode ? 'text-amber-400' : 'text-amber-600'}`}><span className="inline-flex items-center gap-2">{icons.chartBar}Track Progress</span></h4>
+            <h4 className={`font-medium mb-2 ${darkMode ? 'text-amber-400' : 'text-amber-600'}`}><span className="inline-flex items-center gap-2">{icons.chartBar}{t('efficiency.efficiencyTrend')}</span></h4>
             <ul className={`text-sm space-y-1 ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              <li>• Target: {units.elecCons(Math.round(data.summary.avgConsumption * 0.95)).formatted} (5% improvement)</li>
-              <li>• Review monthly to spot trends</li>
-              <li>• Compare seasons for context</li>
+              <li>• {t('insights.efficiencyTarget', { target: units.elecCons(Math.round(data.summary.avgConsumption * 0.95)).formatted })}</li>
+              <li>• {t('patterns.monthlyTrends')}</li>
+              <li>• {t('battery.seasonalVariation')}</li>
             </ul>
           </div>
         </div>

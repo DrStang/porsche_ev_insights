@@ -1,5 +1,8 @@
+import { useTranslation } from '../../i18n';
 
 export function Header({ darkMode, menuOpen, setMenuOpen }) {
+  const { t } = useTranslation();
+
   return (
     <header className={`border-b backdrop-blur-sm sticky top-0 z-50 ${darkMode ? 'border-zinc-800 bg-zinc-950/80' : 'border-zinc-200 bg-white/80'}`}>
       <div className="max-w-7xl mx-auto px-4 py-3">
@@ -11,18 +14,18 @@ export function Header({ darkMode, menuOpen, setMenuOpen }) {
               </svg>
             </div>
             <div>
-              <h1 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-zinc-900'}`}>Porsche EV Insights</h1>
-              <p className={`text-xs ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>EV Trip Analytics</p>
+              <h1 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-zinc-900'}`}>{t('header.title')}</h1>
+              <p className={`text-xs ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>{t('header.subtitle')}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <div className={`hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full ${darkMode ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-emerald-500/20 border-emerald-500/30'} border`}>
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-              <span className={`text-xs font-medium ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>LOCAL-FIRST</span>
+              <span className={`text-xs font-medium ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>{t('header.localFirst')}</span>
             </div>
             <div className={`hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full ${darkMode ? 'bg-blue-500/10 border-blue-500/20' : 'bg-blue-500/20 border-blue-500/30'} border`}>
               <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-              <span className={`text-xs font-medium ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>PRIVACY-FIRST</span>
+              <span className={`text-xs font-medium ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{t('header.privacyFirst')}</span>
             </div>
             {/* Menu toggle button - visible on mobile/tablet */}
             <button

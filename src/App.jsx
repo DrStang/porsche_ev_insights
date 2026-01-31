@@ -14,6 +14,9 @@ import { safeStorage } from './utils/storage';
 import { downloadFile } from './utils/download';
 import { parseCSV } from './utils/csvParser';
 
+// i18n
+import { useTranslation } from './i18n';
+
 // Services
 import { processUploadedData, extractVehicleModel } from './services/dataProcessor';
 
@@ -38,6 +41,7 @@ import { WelcomeScreen, SettingsPage } from './pages';
 
 // ========== MAIN COMPONENT ==========
 export default function App() {
+  const { language, setLanguage, t } = useTranslation();
   const [appData, setAppData] = useState(null);
   const [useSampleData, setUseSampleData] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
@@ -186,14 +190,18 @@ export default function App() {
   const vehicleDisplayName = useMemo(() => {
     const model = vehicleModel || 'Porsche';
     const baseModel = model.split(' ')[0];
+    // Use translation keys for proper localization
+    const yourLabel = baseModel === 'Taycan' ? t('benchmark.yourTaycan') :
+                      baseModel === 'Porsche' ? t('benchmark.yourPorsche') :
+                      `${t('benchmark.yourVehicle').split(' ')[0]} ${baseModel}`;
     return {
-      full: `Your ${model}`,
-      short: `Your ${baseModel}`,
+      full: yourLabel,
+      short: yourLabel,
       modelFull: model,
       modelShort: baseModel,
-      avgLabel: `${baseModel} Avg`
+      avgLabel: `${baseModel} ${t('benchmark.avg')}`
     };
-  }, [vehicleModel]);
+  }, [vehicleModel, t]);
 
   // Trip type labels with converted distances
   const tripTypeLabels = useMemo(() => {
@@ -202,21 +210,21 @@ export default function App() {
 
     if (isImperial) {
       return {
-        'Micro (<5km)': `Micro (<3${distUnit})`,
-        'Short (5-10km)': `Short (3-6${distUnit})`,
-        'Medium (10-20km)': `Medium (6-12${distUnit})`,
-        'Long (20-50km)': `Long (12-31${distUnit})`,
-        'Very Long (>50km)': `Very Long (>31${distUnit})`
+        'Micro (<5km)': `${t('tripTypes.micro')} (<3${distUnit})`,
+        'Short (5-10km)': `${t('tripTypes.short')} (3-6${distUnit})`,
+        'Medium (10-20km)': `${t('tripTypes.medium')} (6-12${distUnit})`,
+        'Long (20-50km)': `${t('tripTypes.long')} (12-31${distUnit})`,
+        'Very Long (>50km)': `${t('tripTypes.veryLong')} (>31${distUnit})`
       };
     }
     return {
-      'Micro (<5km)': `Micro (<5${distUnit})`,
-      'Short (5-10km)': `Short (5-10${distUnit})`,
-      'Medium (10-20km)': `Medium (10-20${distUnit})`,
-      'Long (20-50km)': `Long (20-50${distUnit})`,
-      'Very Long (>50km)': `Very Long (>50${distUnit})`
+      'Micro (<5km)': `${t('tripTypes.micro')} (<5${distUnit})`,
+      'Short (5-10km)': `${t('tripTypes.short')} (5-10${distUnit})`,
+      'Medium (10-20km)': `${t('tripTypes.medium')} (10-20${distUnit})`,
+      'Long (20-50km)': `${t('tripTypes.long')} (20-50${distUnit})`,
+      'Very Long (>50km)': `${t('tripTypes.veryLong')} (>50${distUnit})`
     };
-  }, [unitSystem]);
+  }, [unitSystem, t]);
 
   // Speed range labels with conversions
   const speedRangeLabels = useMemo(() => {
@@ -273,18 +281,20 @@ export default function App() {
     }));
   }, [data, speedRangeLabels, units]);
 
-  // Converted day data for charts
+  // Converted day data for charts (with translated day names)
   const convertedDayData = useMemo(() => {
     if (!data?.dayData) return [];
     return data.dayData.map(d => ({
       ...d,
+      dayKey: d.day, // Keep original key for weekend detection
+      day: t(`days.${d.day?.toLowerCase?.() || d.day}`),
       distance: units.dist(d.distance).value,
       avgDist: units.dist(d.avgDist).value,
       consumption: units.elecCons(d.consumption).value
     }));
-  }, [data, units]);
+  }, [data, units, t]);
 
-  // Time-based aggregated data based on timeView selection
+  // Time-based aggregated data based on timeView selection (with translated month names)
   const timeViewData = useMemo(() => {
     if (!data) return [];
 
@@ -299,13 +309,13 @@ export default function App() {
     if (timeView === 'week') return transformData(data.weeklyData || []);
     return (data.monthlyData || []).map(m => ({
       period: m.month,
-      label: m.month,
+      label: t(`months.${m.month?.toLowerCase?.() || m.month}`),
       trips: m.trips,
       distance: units.dist(m.distance).value,
       avgConsumption: units.elecCons(m.consumption).value,
       energy: precise.div(precise.mul(m.distance, m.consumption), 100)
     }));
-  }, [data, timeView, units]);
+  }, [data, timeView, units, t]);
 
   const costs = useMemo(() => {
     if (!data) return null;
@@ -446,8 +456,8 @@ export default function App() {
     const annualCharges = data.summary.totalChargeCycles > 0 ? Math.round((data.summary.totalChargeCycles / months) * 12) : 0;
     const fiveYearSavings = precise.mul(annualSavings, 5);
     const fiveYearDistance = precise.mul(annualDistance, 5);
-    const summerMonths = data.monthlyData.filter(m => ['Jun', 'Jul', 'Aug'].includes(m.month));
-    const winterMonths = data.monthlyData.filter(m => ['Dec', 'Jan', 'Feb'].includes(m.month));
+    const summerMonths = data.monthlyData.filter(m => ['jun', 'jul', 'aug'].includes(m.month));
+    const winterMonths = data.monthlyData.filter(m => ['dec', 'jan', 'feb'].includes(m.month));
     const avgSummerConsumption = summerMonths.length > 0 ? precise.div(summerMonths.reduce((s, m) => s + m.consumption, 0), summerMonths.length) : data.summary.avgConsumption;
     const avgWinterConsumption = winterMonths.length > 0 ? precise.div(winterMonths.reduce((s, m) => s + m.consumption, 0), winterMonths.length) : data.summary.avgConsumption;
     const recentMonths = data.monthlyData.slice(-3);
@@ -539,11 +549,11 @@ export default function App() {
       microTripRatio,
       competitors,
       avgVehicleName,
-      drivingProfile: data.summary.avgTripDistance < 15 ? 'Urban Commuter'
-        : data.summary.avgTripDistance < 30 ? 'Mixed Use'
-        : 'Highway Cruiser'
+      drivingProfile: data.summary.avgTripDistance < 15 ? t('drivingProfiles.urbanCommuter')
+        : data.summary.avgTripDistance < 30 ? t('drivingProfiles.mixedUse')
+        : t('drivingProfiles.highwayCruiser')
     };
-  }, [data, batteryAnalysis, vehicleDisplayName]);
+  }, [data, batteryAnalysis, vehicleDisplayName, t]);
 
   // ========== DRIVING INSIGHTS ==========
   const drivingInsights = useMemo(() => {
@@ -562,8 +572,8 @@ export default function App() {
       insights.push({
         type: 'commute',
         iconName: 'car',
-        title: 'Daily Commuter',
-        description: `${commutePct}% of your trips are during typical commute hours (7-8am, 5-7pm). Consider pre-conditioning while plugged in to save energy.`,
+        title: t('insights.dailyCommuter'),
+        description: t('insights.dailyCommuterDesc', { pct: commutePct }),
         severity: 'info'
       });
     }
@@ -573,28 +583,36 @@ export default function App() {
       insights.push({
         type: 'efficiency',
         iconName: 'warning',
-        title: 'High Short-Trip Usage',
-        description: `${data.summary.shortTripsPct}% of trips are under ${shortTripThreshold}${distUnit}. Short trips use ${Math.round((30.4 / 23.7 - 1) * 100)}% more energy per ${distUnit}. Consider combining errands.`,
+        title: t('insights.shortTripsHighUsage'),
+        description: t('insights.shortTripsDesc', {
+          pct: data.summary.shortTripsPct,
+          dist: `${shortTripThreshold}${distUnit}`,
+          diff: Math.round((30.4 / 23.7 - 1) * 100),
+          unit: distUnit
+        }),
         severity: 'warning'
       });
     }
 
-    const saturdayData = data.dayData.find(d => d.day === 'Sat');
-    const weekdayAvgDist = data.dayData.filter(d => !['Sat', 'Sun'].includes(d.day)).reduce((s, d) => s + d.avgDist, 0) / 5;
+    const saturdayData = data.dayData.find(d => d.day === 'sat');
+    const weekdayAvgDist = data.dayData.filter(d => !['sat', 'sun'].includes(d.day)).reduce((s, d) => s + d.avgDist, 0) / 5;
     if (saturdayData && saturdayData.avgDist > weekdayAvgDist * 2) {
       const satDist = isImperial ? Math.round(unitConvert.kmToMi(saturdayData.avgDist)) : saturdayData.avgDist;
       const weekdayDist = isImperial ? Math.round(unitConvert.kmToMi(weekdayAvgDist)) : Math.round(weekdayAvgDist);
       insights.push({
         type: 'pattern',
         iconName: 'patterns',
-        title: 'Weekend Road-Tripper',
-        description: `Saturday trips average ${satDist}${distUnit} vs ${weekdayDist}${distUnit} on weekdays. Longer trips are more efficient!`,
+        title: t('insights.weekendTripperTitle'),
+        description: t('insights.weekendTripperDesc', {
+          satDist: `${satDist}${distUnit}`,
+          weekdayDist: `${weekdayDist}${distUnit}`
+        }),
         severity: 'success'
       });
     }
 
-    const winterData = data.monthlyData.filter(m => ['Dec', 'Jan', 'Feb'].includes(m.month));
-    const summerData = data.monthlyData.filter(m => ['Jun', 'Jul', 'Aug'].includes(m.month));
+    const winterData = data.monthlyData.filter(m => ['dec', 'jan', 'feb'].includes(m.month));
+    const summerData = data.monthlyData.filter(m => ['jun', 'jul', 'aug'].includes(m.month));
     if (winterData.length > 0 && summerData.length > 0) {
       const winterAvg = winterData.reduce((s, m) => s + m.consumption, 0) / winterData.length;
       const summerAvg = summerData.reduce((s, m) => s + m.consumption, 0) / summerData.length;
@@ -605,8 +623,12 @@ export default function App() {
         insights.push({
           type: 'seasonal',
           iconName: 'snowflake',
-          title: 'Winter Efficiency Drop',
-          description: `Winter consumption is ${winterImpact}% higher than summer (${winterConsFormatted} vs ${summerConsFormatted}). Use seat heating over cabin heating.`,
+          title: t('insights.winterDrop'),
+          description: t('insights.winterDropDesc', {
+            pct: winterImpact,
+            winter: winterConsFormatted,
+            summer: summerConsFormatted
+          }),
           severity: 'warning'
         });
       }
@@ -622,8 +644,12 @@ export default function App() {
     insights.push({
       type: 'tip',
       iconName: 'lightbulb',
-      title: 'Your Efficiency Sweet Spot',
-      description: `Best efficiency at ${speedRangeConverted} (${optimalConsFormatted}). This is ${efficiencyGain}% better than your average.`,
+      title: t('insights.sweetSpot'),
+      description: t('insights.sweetSpotDesc', {
+        speed: speedRangeConverted,
+        cons: optimalConsFormatted,
+        pct: efficiencyGain
+      }),
       severity: 'success'
     });
 
@@ -631,16 +657,16 @@ export default function App() {
       insights.push({
         type: 'charging',
         iconName: 'battery',
-        title: 'Optimal Charging Frequency',
-        description: `Averaging ${data.summary.avgTripsPerCharge} trips per charge is healthy for battery longevity. Keep it up!`,
+        title: t('insights.optimalCharging'),
+        description: t('insights.optimalChargingDesc', { trips: data.summary.avgTripsPerCharge }),
         severity: 'success'
       });
     } else if (data.summary.avgTripsPerCharge < 3) {
       insights.push({
         type: 'charging',
         iconName: 'plug',
-        title: 'Frequent Charging',
-        description: `You charge after ${data.summary.avgTripsPerCharge} trips on average. Consider charging less frequently for battery health.`,
+        title: t('insights.frequentCharging'),
+        description: t('insights.frequentChargingDesc', { trips: data.summary.avgTripsPerCharge }),
         severity: 'info'
       });
     }
@@ -651,7 +677,7 @@ export default function App() {
       morningTrips,
       eveningTrips
     };
-  }, [data, unitSystem, units, speedRangeLabels]);
+  }, [data, unitSystem, units, speedRangeLabels, t]);
 
   const handleFileUpload = useCallback((file, type) => {
     const reader = new FileReader();
@@ -686,14 +712,14 @@ export default function App() {
 
   const handleBackup = useCallback(() => {
     try {
-      const backup = { version: 1, timestamp: new Date().toISOString(), data: appData, vehicleModel, settings: { electricityPrice, petrolPrice, petrolConsumption, batteryCapacity, unitSystem, currency, fuelConsFormat, elecConsFormat } };
+      const backup = { version: 2, timestamp: new Date().toISOString(), data: appData, vehicleModel, settings: { electricityPrice, petrolPrice, petrolConsumption, batteryCapacity, unitSystem, currency, fuelConsFormat, elecConsFormat, language } };
       const modelSlug = vehicleModel ? vehicleModel.toLowerCase().replace(/\s+/g, '-') : 'porsche';
       const filename = `${modelSlug}-backup-${new Date().toISOString().split('T')[0]}.json`;
       downloadFile(JSON.stringify(backup, null, 2), filename);
     } catch (err) {
       setModalConfig({ title: 'Export Error', message: 'Failed to create backup: ' + err.message, variant: 'danger' });
     }
-  }, [appData, vehicleModel, electricityPrice, petrolPrice, petrolConsumption, batteryCapacity, unitSystem, currency, fuelConsFormat, elecConsFormat]);
+  }, [appData, vehicleModel, electricityPrice, petrolPrice, petrolConsumption, batteryCapacity, unitSystem, currency, fuelConsFormat, elecConsFormat, language]);
 
   const handleRestore = useCallback((file) => {
     const reader = new FileReader();
@@ -711,6 +737,10 @@ export default function App() {
           setCurrency(backup.settings.currency ?? 'EUR');
           setFuelConsFormat(backup.settings.fuelConsFormat ?? 'L/100km');
           setElecConsFormat(backup.settings.elecConsFormat ?? 'kWh/100km');
+          // Restore language setting if present (v2+ backups)
+          if (backup.settings.language) {
+            setLanguage(backup.settings.language);
+          }
         }
         setModalConfig({ title: 'Success', message: 'Backup restored successfully!', variant: 'success' });
       } catch (err) {
@@ -718,7 +748,7 @@ export default function App() {
       }
     };
     reader.readAsText(file);
-  }, []);
+  }, [setLanguage]);
 
   const handleClearData = useCallback(() => {
     setModalConfig({

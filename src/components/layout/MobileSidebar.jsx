@@ -1,5 +1,6 @@
 import { icons } from '../icons/Icons';
 import { tabs } from '../../constants/tabs';
+import { useTranslation } from '../../i18n';
 
 export function MobileSidebar({
   menuOpen,
@@ -11,6 +12,8 @@ export function MobileSidebar({
   darkMode,
   setDarkMode
 }) {
+  const { t } = useTranslation();
+
   return (
     <>
       {/* Mobile Menu Overlay */}
@@ -69,7 +72,7 @@ export function MobileSidebar({
                 }`}
               >
                 {icons[tab.id]}
-                <span>{tab.label}</span>
+                <span>{t(`tabs.${tab.id}`)}</span>
               </button>
             ))}
           </nav>
@@ -93,7 +96,7 @@ export function MobileSidebar({
               }`}
             >
               {icons.settings}
-              <span>Settings</span>
+              <span>{t('common.settings')}</span>
             </button>
 
             {/* Dark mode toggle */}
@@ -106,7 +109,7 @@ export function MobileSidebar({
               }`}
             >
               {darkMode ? icons.moon : icons.sun}
-              <span>{darkMode ? 'Dark Mode' : 'Light Mode'}</span>
+              <span>{darkMode ? t('sidebar.darkMode') : t('sidebar.lightMode')}</span>
             </button>
           </div>
 
@@ -114,11 +117,11 @@ export function MobileSidebar({
           <div className="mt-4 pt-4 border-t border-zinc-700 space-y-2">
             <div className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full ${darkMode ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-emerald-500/20 border-emerald-500/30'} border`}>
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-              <span className={`text-xs font-medium ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>LOCAL-FIRST</span>
+              <span className={`text-xs font-medium ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>{t('header.localFirst')}</span>
             </div>
             <div className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full ${darkMode ? 'bg-blue-500/10 border-blue-500/20' : 'bg-blue-500/20 border-blue-500/30'} border`}>
               <span className="w-2 h-2 rounded-full bg-blue-500"></span>
-              <span className={`text-xs font-medium ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>PRIVACY-FIRST</span>
+              <span className={`text-xs font-medium ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{t('header.privacyFirst')}</span>
             </div>
           </div>
         </div>

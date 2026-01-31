@@ -2,6 +2,7 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Resp
 import { ChartCard } from '../common/ChartCard';
 import { TimeViewSelector } from '../common/TimeViewSelector';
 import { getXAxisConfig } from '../../utils/chartHelpers';
+import { useTranslation } from '../../i18n';
 
 export function EfficiencyTab({
   data,
@@ -16,6 +17,7 @@ export function EfficiencyTab({
   elecConsDomain,
   unitSystem
 }) {
+  const { t } = useTranslation();
   const xAxisConfig = getXAxisConfig(timeView, timeViewData.length);
 
   return (
@@ -26,7 +28,7 @@ export function EfficiencyTab({
           <p className={`text-3xl font-bold ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>
             {data.bestTrip ? units.elecCons(data.bestTrip.consumption).value : '—'}
           </p>
-          <p className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>Best {units.elecConsUnit}</p>
+          <p className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>{t('efficiency.bestEfficiency')} {units.elecConsUnit}</p>
           {data.bestTrip && (
             <p className={`text-xs mt-1 ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>
               {data.bestTrip.date} • {units.dist(data.bestTrip.distance).formatted} @ {units.speed(data.bestTrip.speed).formatted}
@@ -37,13 +39,13 @@ export function EfficiencyTab({
           <p className={`text-3xl font-bold ${darkMode ? 'text-zinc-200' : 'text-zinc-800'}`}>
             {units.elecCons(data.summary.avgConsumption).value}
           </p>
-          <p className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>Average {units.elecConsUnit}</p>
+          <p className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>{t('efficiency.avgEfficiency')} {units.elecConsUnit}</p>
         </div>
         <div className={`p-4 rounded-xl text-center ${darkMode ? 'bg-red-500/10 border border-red-500/20' : 'bg-red-50 border border-red-200'}`}>
           <p className={`text-3xl font-bold ${darkMode ? 'text-red-400' : 'text-red-600'}`}>
             {data.worstTrip ? units.elecCons(data.worstTrip.consumption).value : '—'}
           </p>
-          <p className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>Worst {units.elecConsUnit}</p>
+          <p className={`text-sm ${darkMode ? 'text-zinc-400' : 'text-zinc-600'}`}>{t('efficiency.worstEfficiency')} {units.elecConsUnit}</p>
           {data.worstTrip && (
             <p className={`text-xs mt-1 ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>
               {data.worstTrip.date} • {units.dist(data.worstTrip.distance).formatted} @ {units.speed(data.worstTrip.speed).formatted}
@@ -56,7 +58,7 @@ export function EfficiencyTab({
       <TimeViewSelector timeView={timeView} setTimeView={setTimeView} darkMode={darkMode} />
 
       {/* Consumption Trend - Full Width */}
-      <ChartCard darkMode={darkMode} title="Consumption Trend">
+      <ChartCard darkMode={darkMode} title={t('efficiency.consumptionTrend')}>
         <ResponsiveContainer width="100%" height={320}>
           <ComposedChart data={timeViewData} margin={{ bottom: xAxisConfig.height - 30 }}>
             <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
@@ -84,7 +86,7 @@ export function EfficiencyTab({
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {/* Efficiency by Speed Range */}
-        <ChartCard darkMode={darkMode} title="Efficiency by Speed Range">
+        <ChartCard darkMode={darkMode} title={t('efficiency.consumptionBySpeed')}>
           <ResponsiveContainer width="100%" height={260}>
             <BarChart data={convertedSpeedEfficiency}>
               <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
@@ -94,21 +96,21 @@ export function EfficiencyTab({
                 contentStyle={{ background: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: '8px' }}
                 itemStyle={{ color: chartColors.tooltipText }}
                 labelStyle={{ color: chartColors.tooltipText }}
-                formatter={(value, name) => name === 'consumption' ? [`${value} ${units.elecConsUnit}`, 'Avg Consumption'] : [`${value} trips`, 'Trips']}
+                formatter={(value, name) => name === 'consumption' ? [`${value} ${units.elecConsUnit}`, t('charts.consumption')] : [`${value} ${t('common.trips')}`, t('charts.trips')]}
               />
               <Bar dataKey="consumption" name="consumption" fill="#ef4444" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
           <p className={`text-sm mt-2 ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>
-            Sweet spot: {unitSystem === 'metric' ? '40-80 km/h' : '25-50 mph'} for best efficiency
+            {t('efficiency.optimalSpeed')}: {unitSystem === 'metric' ? '40-80 km/h' : '25-50 mph'}
           </p>
         </ChartCard>
 
         {/* Seasonal Efficiency */}
         {data.seasonalData && data.seasonalData.length > 0 && (
-          <ChartCard darkMode={darkMode} title="Seasonal Efficiency">
+          <ChartCard darkMode={darkMode} title={t('battery.seasonalVariation')}>
             <ResponsiveContainer width="100%" height={260}>
-              <BarChart data={data.seasonalData.map(s => ({ ...s, consumption: units.elecCons(s.consumption).value }))}>
+              <BarChart data={data.seasonalData.map(s => ({ ...s, season: t(`seasons.${s.season?.toLowerCase?.() || s.season}`), consumption: units.elecCons(s.consumption).value }))}>
                 <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />
                 <XAxis dataKey="season" stroke={chartColors.axis} fontSize={11} />
                 <YAxis stroke={chartColors.axis} fontSize={11} domain={elecConsDomain} />
@@ -116,7 +118,7 @@ export function EfficiencyTab({
                   contentStyle={{ background: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: '8px' }}
                   itemStyle={{ color: chartColors.tooltipText }}
                   labelStyle={{ color: chartColors.tooltipText }}
-                  formatter={(value, name) => name === 'consumption' ? [`${value} ${units.elecConsUnit}`, 'Consumption'] : [`${value}`, name]}
+                  formatter={(value, name) => name === 'consumption' ? [`${value} ${units.elecConsUnit}`, t('charts.consumption')] : [`${value}`, name]}
                 />
                 <Bar dataKey="consumption" name="consumption" radius={[4, 4, 0, 0]}>
                   {data.seasonalData.map((entry, i) => (
@@ -130,7 +132,7 @@ export function EfficiencyTab({
       </div>
 
       {/* Trip Type Efficiency */}
-      <ChartCard darkMode={darkMode} title="Efficiency by Trip Type">
+      <ChartCard darkMode={darkMode} title={t('efficiency.consumptionByTripType')}>
         <ResponsiveContainer width="100%" height={260}>
           <BarChart data={convertedTripTypes}>
             <CartesianGrid strokeDasharray="3 3" stroke={chartColors.grid} />

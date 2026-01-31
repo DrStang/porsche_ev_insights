@@ -8,12 +8,12 @@ export function processUploadedData(sinceStartData, sinceChargeData) {
     return `${d.getFullYear()}-W${weekNum.toString().padStart(2, '0')}`;
   };
 
-  // Helper to get season from month
+  // Helper to get season from month (returns lowercase key for translation)
   const getSeason = (month) => {
-    if (month >= 3 && month <= 5) return 'Spring';
-    if (month >= 6 && month <= 8) return 'Summer';
-    if (month >= 9 && month <= 11) return 'Autumn';
-    return 'Winter';
+    if (month >= 3 && month <= 5) return 'spring';
+    if (month >= 6 && month <= 8) return 'summer';
+    if (month >= 9 && month <= 11) return 'autumn';
+    return 'winter';
   };
 
   const trips = sinceStartData.map(row => {
@@ -93,7 +93,7 @@ export function processUploadedData(sinceStartData, sinceChargeData) {
   });
   const hourData = Object.values(hourMap).sort((a, b) => a.hour.localeCompare(b.hour));
 
-  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const dayNames = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   const dayMap = {};
   trips.forEach(t => {
     let d = null;
@@ -116,7 +116,7 @@ export function processUploadedData(sinceStartData, sinceChargeData) {
       dayMap[dayName].totalConsumption = precise.add(dayMap[dayName].totalConsumption, t.consumption);
     }
   });
-  const dayOrder = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const dayOrder = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
   const dayData = dayOrder.map(d => dayMap[d] || { day: d, trips: 0, distance: 0, totalConsumption: 0 })
     .map(d => ({
       ...d,
@@ -142,20 +142,21 @@ export function processUploadedData(sinceStartData, sinceChargeData) {
   }));
 
   const monthMap = {};
-  const monthNames = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  // Use lowercase keys for translation lookup
+  const monthKeys = ['', 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
 
   const getMonthInfo = (dateStr) => {
     // Try ISO format: 2025-11-09T13:22:52Z
     const isoMatch = dateStr.match(/^(\d{4})-(\d{2})-\d{2}T/);
     if (isoMatch) {
       const monthNum = parseInt(isoMatch[2]);
-      return { key: `${isoMatch[1]}-${isoMatch[2]}`, name: monthNames[monthNum] };
+      return { key: `${isoMatch[1]}-${isoMatch[2]}`, name: monthKeys[monthNum] };
     }
     // Try Portuguese format: dd/mm/yyyy
     const dateMatch = dateStr.match(/(\d{2})\/(\d{2})\/(\d{4})/);
     if (dateMatch) {
       const monthNum = parseInt(dateMatch[2]);
-      return { key: `${dateMatch[3]}-${dateMatch[2]}`, name: monthNames[monthNum] };
+      return { key: `${dateMatch[3]}-${dateMatch[2]}`, name: monthKeys[monthNum] };
     }
     return null;
   };
@@ -199,9 +200,9 @@ export function processUploadedData(sinceStartData, sinceChargeData) {
     return { range: sr.label, consumption: avgCons, trips: matching.length };
   });
 
-  // Seasonal efficiency data
-  const seasonColors = { Spring: '#84cc16', Summer: '#f59e0b', Autumn: '#ea580c', Winter: '#3b82f6' };
-  const seasonOrder = ['Spring', 'Summer', 'Autumn', 'Winter'];
+  // Seasonal efficiency data (lowercase keys for translation)
+  const seasonColors = { spring: '#84cc16', summer: '#f59e0b', autumn: '#ea580c', winter: '#3b82f6' };
+  const seasonOrder = ['spring', 'summer', 'autumn', 'winter'];
   const seasonMap = {};
   trips.forEach(t => {
     if (t.season) {

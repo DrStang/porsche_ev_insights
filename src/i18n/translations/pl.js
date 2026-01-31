@@ -1,0 +1,467 @@
+// Polish translations
+export const pl = {
+  // Language metadata
+  _meta: {
+    name: 'Polish',
+    nativeName: 'Polski',
+    code: 'pl'
+  },
+
+  // Common
+  common: {
+    settings: 'Ustawienia',
+    upload: 'Prześlij',
+    cancel: 'Anuluj',
+    confirm: 'Potwierdź',
+    save: 'Zapisz',
+    close: 'Zamknij',
+    yes: 'Tak',
+    no: 'Nie',
+    ok: 'OK',
+    error: 'Błąd',
+    success: 'Sukces',
+    warning: 'Ostrzeżenie',
+    info: 'Info',
+    loading: 'Ładowanie...',
+    processing: 'Przetwarzanie...',
+    required: 'Wymagane',
+    optional: 'Opcjonalne',
+    total: 'Łącznie',
+    average: 'Średnia',
+    trips: 'podróży',
+    trip: 'podróż',
+    distance: 'Dystans',
+    energy: 'Energia',
+    consumption: 'Zużycie',
+    duration: 'Czas trwania',
+    speed: 'Prędkość',
+    min: 'min',
+    hours: 'godzin',
+    minutes: 'minut',
+    by: 'przez'
+  },
+
+  // Header
+  header: {
+    title: 'Porsche EV Insights',
+    subtitle: 'Analiza podróży EV',
+    localFirst: 'LOKALNE',
+    privacyFirst: 'PRYWATNOŚĆ'
+  },
+
+  // Navigation tabs
+  tabs: {
+    overview: 'Przegląd',
+    patterns: 'Wzorce',
+    efficiency: 'Wydajność',
+    costs: 'Koszty',
+    environmental: 'Środowisko',
+    battery: 'Bateria',
+    insights: 'Analizy'
+  },
+
+  // Sidebar
+  sidebar: {
+    darkMode: 'Ciemny Motyw',
+    lightMode: 'Jasny Motyw'
+  },
+
+  // Welcome screen
+  welcome: {
+    title: 'Witaj w Porsche EV Insights',
+    description: 'Prześlij eksporty CSV z Porsche Connect, aby przeanalizować swoje wzorce jazdy.',
+    uploadButton: 'Prześlij swoje dane',
+    sampleButton: 'Wypróbuj dane przykładowe',
+    privacyTitle: 'Prywatność chroniona',
+    privacyText: 'Wszystkie dane są przetwarzane lokalnie w przeglądarce.'
+  },
+
+  // Upload modal
+  upload: {
+    title: 'Prześlij dane Porsche',
+    sinceStart: 'Od startu',
+    sinceStartDesc: 'Pojedyncze podróże',
+    sinceCharge: 'Od ładowania',
+    sinceChargeDesc: 'Cykle ładowania',
+    processButton: 'Przetwarzaj dane',
+    tripsCount: '{count} podróży',
+    cyclesCount: '{count} cykli'
+  },
+
+  // Settings page
+  settings: {
+    title: 'Ustawienia',
+
+    // Language section
+    language: 'Język',
+    languageLabel: 'Język wyświetlania',
+
+    // Units & Currency section
+    unitsAndCurrency: 'Jednostki i waluta',
+    unitSystem: 'System jednostek',
+    currency: 'Waluta',
+    fuelConsumption: 'Zużycie paliwa',
+    electricConsumption: 'Zużycie energii',
+    distanceUnit: 'Odległość',
+    speedUnit: 'Prędkość',
+
+    // Cost settings section
+    costSettings: 'Ustawienia kosztów',
+    electricityPrice: 'Energia elektryczna',
+    petrolPrice: 'Benzyna',
+    petrolConsumption: 'Zużycie benzyny',
+    perKwh: '/kWh',
+    perLiter: '/L',
+    perGallon: '/gal',
+
+    // Vehicle settings section
+    vehicleSettings: 'Ustawienia pojazdu',
+    batteryCapacity: 'Użyteczna pojemność baterii (kWh)',
+    batteryCapacityHelp: 'Używane do obliczeń zasięgu. Typowe wartości: 71 kWh (podstawowa), 83.7 kWh (Performance Battery Plus)',
+
+    // Data management section
+    dataManagement: 'Zarządzanie danymi',
+    uploadCsvFiles: 'Prześlij pliki CSV',
+    clearAllData: 'Usuń wszystkie dane',
+
+    // Backup & restore section
+    backupRestore: 'Kopia zapasowa i przywracanie',
+    downloadBackup: 'Pobierz kopię zapasową',
+    restoreBackup: 'Przywróć kopię zapasową',
+
+    // Privacy notice
+    privacyNoticeTitle: 'Dane przechowywane lokalnie',
+    privacyNoticeText: 'Twoje dane o podróżach nigdy nie opuszczają urządzenia. Brak serwerów, śledzenia, zbierania danych. Wszystko jest przetwarzane i przechowywane lokalnie w przeglądarce.'
+  },
+
+  // Confirm modal
+  confirm: {
+    clearDataTitle: 'Usunąć wszystkie dane?',
+    clearDataMessage: 'Tej akcji nie można cofnąć. Wszystkie dane o podróżach i ustawienia zostaną trwale usunięte z tego urządzenia.',
+    clearDataConfirm: 'Tak, usuń dane',
+    backupRestored: 'Kopia zapasowa przywrócona pomyślnie!',
+    exportError: 'Błąd eksportu',
+    restoreError: 'Błąd przywracania',
+    parseError: 'Błąd parsowania pliku',
+    missingFile: 'Brakujący plik',
+    missingFileMessage: 'Prześlij plik "Od startu" aby kontynuować.'
+  },
+
+  // Sample data banner
+  sampleData: {
+    viewing: 'Wyświetlanie danych przykładowych',
+    hide: 'Ukryj'
+  },
+
+  // Overview tab
+  overview: {
+    title: 'Przegląd',
+    totalTrips: 'Łącznie podróży',
+    totalDistance: 'Łączna odległość',
+    totalEnergy: 'Łączna energia',
+    avgConsumption: 'Średnie zużycie',
+    avgTripDistance: 'Średnia odległość podróży',
+    avgTripDuration: 'Średni czas podróży',
+    avgSpeed: 'Średnia prędkość',
+    totalChargeCycles: 'Cykle ładowania',
+    distanceOverTime: 'Odległość w czasie',
+    tripsByType: 'Podróże wg typu',
+    tripsPerCharge: 'Podróże/Ładowanie',
+    shortTrips: 'Krótkie Podróże',
+    avgPerMonth: 'Śr./Miesiąc',
+    distanceAndTrips: 'Odległość i Podróże',
+    tripTypeDistribution: 'Rozkład wg Typu Podróży',
+    energyOverTime: 'Energia w czasie',
+    tripsOverTime: 'Podróże w czasie'
+  },
+
+  // Patterns tab
+  patterns: {
+    title: 'Wzorce jazdy',
+    hourlyDistribution: 'Rozkład godzinowy podróży',
+    dailyPatterns: 'Wzorce dzienne',
+    monthlyTrends: 'Trendy miesięczne',
+    weekdayVsWeekend: 'Dni robocze vs Weekend',
+    peakHours: 'Godziny szczytu',
+    avgTripsPerDay: 'Śr. podróży na dzień',
+    avgDistancePerDay: 'Śr. dystans na dzień',
+    mostActiveDay: 'Najbardziej aktywny dzień',
+    leastActiveDay: 'Najmniej aktywny dzień',
+    distanceOverTime: 'Odległość w czasie',
+    tripsPerHour: 'Podróże na Godzinę',
+    tripsAndDistance: 'Podróże i Dystans na Dzień',
+    avgDistance: 'Śr. Dystans'
+  },
+
+  // Efficiency tab
+  efficiency: {
+    title: 'Analiza wydajności',
+    consumptionOverTime: 'Zużycie w czasie',
+    tripTypeEfficiency: 'Wydajność wg typu podróży',
+    speedEfficiency: 'Prędkość vs wydajność',
+    bestEfficiency: 'Najlepsza Wydajność',
+    worstEfficiency: 'Najgorsza Wydajność',
+    avgEfficiency: 'Średnia Wydajność',
+    efficiencyTrend: 'Trend Wydajności',
+    optimalSpeed: 'Optymalna Prędkość',
+    consumptionBySpeed: 'Zużycie wg Prędkości',
+    consumptionByTripType: 'Zużycie wg Typu Podróży',
+    consumptionTrend: 'Trend Zużycia'
+  },
+
+  // Costs tab
+  costs: {
+    title: 'Analiza kosztów',
+    electricCost: 'Koszt energii',
+    petrolCost: 'Ekwiwalent benzyny',
+    savings: 'Łączne oszczędności',
+    savingsRate: 'Wskaźnik oszczędności',
+    costPerDistance: 'Koszt na {unit}',
+    annualProjection: 'Projekcja roczna',
+    fiveYearSavings: 'Oszczędności 5-letnie',
+    comparedTo: 'w porównaniu z autem benzynowym {consumption}',
+    monthlyCost: 'Koszt Miesięczny',
+    yearlyProjection: 'Projekcja Roczna',
+    costComparison: 'Porównanie Kosztów',
+    electricVsPetrol: 'Elektryczny vs Benzyna',
+    savingsOverTime: 'Oszczędności w Czasie',
+    costPerTrip: 'Koszt na Podróż',
+    costPerKm: 'Koszt na km',
+    costPerMile: 'Koszt na milę',
+    projectedAnnual: 'Projekcja Roczna',
+    projectedSavings: 'Przewidywane Oszczędności',
+    electricityCost: 'Koszt Energii',
+    petrolEquivalent: 'Ekwiwalent Benzyny'
+  },
+
+  // Environmental tab
+  environmental: {
+    title: 'Wpływ na środowisko',
+    co2Electric: 'CO₂ Elektryczny',
+    co2Petrol: 'CO₂ Benzyna',
+    co2Saved: 'CO₂ zaoszczędzone',
+    co2SavedLabel: 'CO₂ Zaoszczędzone',
+    treesEquivalent: 'Ekwiwalent drzew',
+    reductionPercentage: 'Redukcja',
+    litersAvoided: 'Benzyna uniknięta',
+    emissionsComparison: 'Porównanie Emisji Miesięcznych',
+    carbonFootprint: 'Ślad Węglowy',
+    annualImpact: 'Wpływ Roczny',
+    equivalentTrees: 'Ekwiwalent Drzew',
+    kgCo2: 'kg CO₂',
+    tonsCo2: 'ton CO₂',
+    vsElectric: 'vs benzyna',
+    youProduced: 'Twoje Emisje',
+    petrolWouldProduce: 'Benzyna Wyemitowałaby',
+    treesPerYear: 'drzew/rok',
+    gridEmissions: 'Emisje z sieci',
+    petrolBaseline: 'Odniesienie benzyny',
+    electricGrid: 'sieć elektryczna',
+    ifPetrol: 'jeśli benzyna'
+  },
+
+  // Battery tab
+  battery: {
+    title: 'Bateria i zasięg',
+    realWorldRange: 'Rzeczywisty Zasięg',
+    officialRange: 'Oficjalny Zasięg',
+    rangeEfficiency: 'Wydajność zasięgu',
+    energyPerTrip: 'Energia na podróż',
+    tripsPerCharge: 'Podróży na ładowanie',
+    distancePerCharge: 'Odległość na ładowanie',
+    batteryPerTrip: 'Bateria na podróż',
+    consumptionVsOfficial: 'vs Oficjalne',
+    seasonalVariation: 'Zmienność sezonowa',
+    chargesPerWeek: 'Ładowań na tydzień',
+    chargingLosses: 'Straty ładowania',
+    offPeakSavings: 'Oszcz. taryfa nocna',
+    fullCycles: 'Pełne cykle',
+    batteryHealth: 'Zdrowie Baterii',
+    chargingPattern: 'Wzorzec Ładowania',
+    rangeAnalysis: 'Analiza Zasięgu',
+    winterRange: 'Zasięg Zimowy',
+    summerRange: 'Zasięg Letni',
+    socUsedPerCycle: 'SOC Użyte/Cykl',
+    potentialSavings: 'Potencjalne Oszczędności',
+    vsOfficialRange: 'vs Oficjalny',
+    rangeComparison: 'Porównanie Zasięgu',
+    yourRange: 'Twój Zasięg',
+    officialRangeLabel: 'Oficjalny',
+    chargingOptimization: 'Optymalizacja Ładowania'
+  },
+
+  // Insights tab
+  insights: {
+    title: 'Analizy jazdy',
+    commuter: 'Codzienny dojazdowiec',
+    commuterDesc: '{pct}% twoich podróży jest w typowych godzinach dojazdu (7-8, 17-19). Rozważ nagrzewanie kabiny podczas ładowania, aby oszczędzać energię.',
+    shortTrips: 'Połącz krótkie trasy',
+    shortTripsDesc: '{pct}% podróży jest krótszych niż {dist}. Krótkie trasy zużywają {diff}% więcej energii na {unit}. Rozważ łączenie sprawunków.',
+    weekendTripper: 'Weekendowy podróżnik',
+    weekendTripperDesc: 'Sobotnie podróże średnio {satDist} vs {weekdayDist} w dni robocze. Dłuższe podróże są bardziej wydajne!',
+    winterDrop: 'Wskazówki Zimowe',
+    winterDropDesc: 'Zimowe zużycie jest {pct}% wyższe niż letnie ({winter} vs {summer}). Używaj ogrzewania foteli zamiast klimatyzacji.',
+    sweetSpot: 'Twój optymalny punkt wydajności',
+    sweetSpotDesc: 'Najlepsza wydajność przy {speed} ({cons}). To {pct}% lepiej niż twoja średnia.',
+    optimalCharging: 'Optymalna częstotliwość ładowania',
+    optimalChargingDesc: 'Średnio {trips} podróży na ładowanie jest zdrowe dla długowieczności baterii. Tak trzymaj!',
+    frequentCharging: 'Częste ładowanie',
+    frequentChargingDesc: 'Ładujesz po średnio {trips} podróżach. Rozważ rzadsze ładowanie dla zdrowia baterii.',
+    drivingProfile: 'Profil jazdy',
+    urbanCommuter: 'Miejski',
+    mixedUse: 'Użycie Mieszane',
+    highwayCruiser: 'Autostradowy',
+    efficiencyRating: 'Ocena wydajności',
+    vsAvgTaycan: 'vs Średni Taycan',
+    shortTripPenalty: 'Kara za krótkie trasy',
+    drivingScore: 'Wynik Jazdy',
+    recommendations: 'Spersonalizowane Zalecenia',
+    strengths: 'Mocne Strony',
+    areasToImprove: 'Obszary do Poprawy',
+    yourInsights: 'Twoje Analizy',
+    predictions: 'Prognozy i Przewidywania',
+    projectedAnnualDistance: 'Dystans Roczny',
+    projectedAnnualTrips: 'Podróże Roczne',
+    projectedAnnualEnergy: 'Energia Roczna',
+    projectedAnnualCost: 'Oszczędności Roczne',
+    competitorComparison: 'Porównanie EV',
+    dailyCommuter: 'Codzienny Dojazdowiec',
+    dailyCommuterDesc: '{pct}% twoich podróży jest w typowych godzinach dojazdu (7-8, 17-19). Rozważ nagrzewanie kabiny podczas ładowania, aby oszczędzać energię.',
+    shortTripsHighUsage: 'Duże użycie krótkich tras',
+    weekendTripperTitle: 'Weekendowy Podróżnik',
+    projected: 'przewidywane',
+    nextMonthForecast: 'Prognoza Następny Miesiąc',
+    tripsExpected: 'oczekiwane podróże',
+    seasonalPrediction: 'Przewidywanie Sezonowe',
+    summer: 'Lato',
+    winter: 'Zima',
+    // Recommendation strings
+    vsPetrol: 'vs benzyna',
+    chargingRecDaily: '80% codziennie, 100% na długie trasy',
+    chargingRecPrecondition: 'Nagrzewać podczas ładowania',
+    efficiencyRecCombine: 'Łączyć krótkie trasy',
+    efficiencyRecEcoMode: 'Eco w mieście, normalny na autostradzie',
+    winterRecSeats: 'Używać ogrzewania foteli/kierownicy',
+    winterRecGarage: 'Parkować w garażu jeśli możliwe',
+    winterRecPreheat: 'Nagrzewać podczas ładowania',
+    efficiencyTarget: 'Cel: {target} (-5%)'
+  },
+
+  // Time view selector
+  timeView: {
+    day: 'Dzień',
+    week: 'Tydzień',
+    month: 'Miesiąc'
+  },
+
+  // Days of week
+  days: {
+    mon: 'Pon',
+    tue: 'Wt',
+    wed: 'Śr',
+    thu: 'Czw',
+    fri: 'Pt',
+    sat: 'Sob',
+    sun: 'Nie',
+    monday: 'Poniedziałek',
+    tuesday: 'Wtorek',
+    wednesday: 'Środa',
+    thursday: 'Czwartek',
+    friday: 'Piątek',
+    saturday: 'Sobota',
+    sunday: 'Niedziela'
+  },
+
+  // Months
+  months: {
+    jan: 'Sty',
+    feb: 'Lut',
+    mar: 'Mar',
+    apr: 'Kwi',
+    may: 'Maj',
+    jun: 'Cze',
+    jul: 'Lip',
+    aug: 'Sie',
+    sep: 'Wrz',
+    oct: 'Paź',
+    nov: 'Lis',
+    dec: 'Gru'
+  },
+
+  // Seasons
+  seasons: {
+    spring: 'Wiosna',
+    summer: 'Lato',
+    autumn: 'Jesień',
+    winter: 'Zima'
+  },
+
+  // Footer
+  footer: {
+    tagline: 'Porsche EV Trips Insights • Lokalne • Prywatność • Żadne dane nie opuszczają urządzenia',
+    developedBy: 'Stworzony przez'
+  },
+
+  // Unit systems
+  unitSystems: {
+    metric: 'Metryczny (km, L)',
+    imperial_uk: 'Imperial UK (mi, mpg)',
+    imperial_us: 'Imperial US (mi, mpg)'
+  },
+
+  // Chart labels
+  charts: {
+    distance: 'Dystans',
+    trips: 'Podróże',
+    consumption: 'Zużycie',
+    energy: 'Energia',
+    cost: 'Koszt',
+    savings: 'Oszczędności',
+    efficiency: 'Wydajność',
+    speed: 'Prędkość',
+    time: 'Czas',
+    hour: 'Godzina',
+    day: 'Dzień',
+    week: 'Tydzień',
+    month: 'Miesiąc',
+    year: 'Rok',
+    average: 'Średnia',
+    total: 'Łącznie',
+    best: 'Najlepsza',
+    worst: 'Najgorsza',
+    range: 'Zasięg'
+  },
+
+  // Trip types
+  tripTypes: {
+    micro: 'Mikro',
+    short: 'Krótka',
+    medium: 'Średnia',
+    long: 'Długa',
+    veryLong: 'Bardzo Długa'
+  },
+
+  // Benchmark / Comparison
+  benchmark: {
+    yourVehicle: 'Twój Pojazd',
+    yourTaycan: 'Twój Taycan',
+    yourPorsche: 'Twój Porsche',
+    average: 'Średnia',
+    avg: 'Śr',
+    comparison: 'Porównanie',
+    betterThan: 'lepiej niż',
+    worseThan: 'gorzej niż',
+    similar: 'Podobny do',
+    avgTaycan: 'Śr. Taycan',
+    avgPorsche: 'Śr. Porsche'
+  },
+
+  // Driving profiles
+  drivingProfiles: {
+    urbanCommuter: 'Miejski Dojazdowiec',
+    mixedUse: 'Użycie Mieszane',
+    highwayCruiser: 'Autostradowiec',
+    weekendDriver: 'Kierowca Weekendowy',
+    efficientDriver: 'Wydajny Kierowca'
+  }
+};
