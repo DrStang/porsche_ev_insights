@@ -89,7 +89,7 @@ export function SettingsPage({
               <input type="number" step="0.01" value={electricityPrice} onChange={(e) => setElectricityPrice(parseFloat(e.target.value) || 0)} className={`w-full px-3 py-2 rounded-lg text-sm focus:border-sky-500 outline-none ${darkMode ? 'bg-zinc-800 border-zinc-700 text-white' : 'bg-zinc-50 border-zinc-300 text-zinc-900'} border`} />
             </div>
             <div>
-              <label className={`block text-xs mb-1 ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>Petrol ({CURRENCIES[currency].symbol}/{unitSystem === 'metric' ? 'L' : 'gal'})</label>
+              <label className={`block text-xs mb-1 ${darkMode ? 'text-zinc-500' : 'text-zinc-500'}`}>Petrol ({CURRENCIES[currency].symbol}/{unitSystem === 'imperial_us' ? 'gal' : 'L'})</label>
               <input type="number" step="0.01" value={petrolPrice} onChange={(e) => setPetrolPrice(parseFloat(e.target.value) || 0)} className={`w-full px-3 py-2 rounded-lg text-sm focus:border-sky-500 outline-none ${darkMode ? 'bg-zinc-800 border-zinc-700 text-white' : 'bg-zinc-50 border-zinc-300 text-zinc-900'} border`} />
             </div>
             <div>

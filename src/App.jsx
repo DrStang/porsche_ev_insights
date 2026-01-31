@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { BarChart, Bar, PieChart, Pie, Cell, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ComposedChart, Line } from 'recharts';
 
 // Constants
-import { UNIT_SYSTEMS, CURRENCIES, FUEL_CONSUMPTION_FORMATS, ELECTRIC_CONSUMPTION_FORMATS, MI_TO_KM, L_TO_UK_GAL, L_TO_US_GAL } from './constants/units';
+import { UNIT_SYSTEMS, CURRENCIES, FUEL_CONSUMPTION_FORMATS, ELECTRIC_CONSUMPTION_FORMATS, MI_TO_KM, L_TO_US_GAL } from './constants/units';
 import { SAMPLE_DATA } from './constants/sampleData';
 import { TAYCAN_SPECS } from './constants/taycanSpecs';
 import { STORAGE_KEYS } from './constants/storageKeys';
@@ -325,14 +325,13 @@ export default function App() {
     }
 
     // Convert petrol price to $/L for internal calculations
+    // UK uses price per litre, US uses price per gallon
     let petrolPricePerL;
-    if (isImperial) {
-      // Price is per gallon, convert to per liter
-      petrolPricePerL = isUK
-        ? precise.mul(petrolPrice, L_TO_UK_GAL)
-        : precise.mul(petrolPrice, L_TO_US_GAL);
+    if (unitSystem === 'imperial_us') {
+      // US price is per gallon, convert to per liter
+      petrolPricePerL = precise.mul(petrolPrice, L_TO_US_GAL);
     } else {
-      petrolPricePerL = petrolPrice; // Already per liter
+      petrolPricePerL = petrolPrice; // Metric and UK are already per liter
     }
 
     const electricCostRaw = precise.mul(data.summary.totalEnergy, electricityPrice);

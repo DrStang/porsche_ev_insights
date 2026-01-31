@@ -3,7 +3,7 @@ import { StatCard } from '../common/StatCard';
 import { ChartCard } from '../common/ChartCard';
 import { precise } from '../../utils/precise';
 import { unitConvert } from '../../utils/unitConvert';
-import { L_TO_UK_GAL, L_TO_US_GAL } from '../../constants/units';
+import { L_TO_US_GAL } from '../../constants/units';
 
 export function CostsTab({
   data,
@@ -17,7 +17,6 @@ export function CostsTab({
   unitSystem,
   fuelConsFormat
 }) {
-  const isImperial = unitSystem.startsWith('imperial');
   const isUK = unitSystem === 'imperial_uk';
 
   // Convert petrol consumption to L/100km for internal calculations
@@ -33,13 +32,13 @@ export function CostsTab({
   }
 
   // Convert petrol price to $/L for internal calculations
+  // UK uses price per litre, US uses price per gallon
   let petrolPricePerL;
-  if (isImperial) {
-    petrolPricePerL = isUK
-      ? precise.mul(petrolPrice, L_TO_UK_GAL)
-      : precise.mul(petrolPrice, L_TO_US_GAL);
+  if (unitSystem === 'imperial_us') {
+    // US price is per gallon, convert to per liter
+    petrolPricePerL = precise.mul(petrolPrice, L_TO_US_GAL);
   } else {
-    petrolPricePerL = petrolPrice;
+    petrolPricePerL = petrolPrice; // Metric and UK are already per liter
   }
 
   return (
