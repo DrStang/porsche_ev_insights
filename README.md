@@ -21,7 +21,7 @@
 
 ## Why Porsche EV Insights?
 
-Porsche's My Porsche app lets you export trip data as CSV files, but analyzing that data isn't straightforward. **Porsche EV Insights** transforms your raw CSV exports into beautiful, actionable insights - all while keeping your data 100% private.
+I felt the Porsche app lacks the deeper insights that can be extracted from the trip data it collects. Porsche's My Porsche app lets you export trip data as CSV files, but analyzing that data isn't straightforward. **Porsche EV Insights** transforms your raw CSV exports into beautiful, actionable insights - all while keeping your data 100% private.
 
 ### Key Highlights
 
