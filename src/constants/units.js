@@ -53,10 +53,18 @@ export const CURRENCIES = {
   CHF: { symbol: 'CHF', label: 'Swiss Franc (CHF)', position: 'after' },
   CAD: { symbol: 'CA$', label: 'Canadian Dollar (CA$)', position: 'before' },
   AUD: { symbol: 'A$', label: 'Australian Dollar (A$)', position: 'before' },
+  NZD: { symbol: 'NZ$', label: 'New Zealand Dollar (NZ$)', position: 'before' },
   JPY: { symbol: '¥', label: 'Japanese Yen (¥)', position: 'before' },
   CNY: { symbol: '¥', label: 'Chinese Yuan (¥)', position: 'before' },
+  KRW: { symbol: '₩', label: 'South Korean Won (₩)', position: 'before' },
+  INR: { symbol: '₹', label: 'Indian Rupee (₹)', position: 'before' },
+  SGD: { symbol: 'S$', label: 'Singapore Dollar (S$)', position: 'before' },
+  BRL: { symbol: 'R$', label: 'Brazilian Real (R$)', position: 'before' },
+  MXN: { symbol: 'MX$', label: 'Mexican Peso (MX$)', position: 'before' },
   SEK: { symbol: 'kr', label: 'Swedish Krona (kr)', position: 'after' },
-  NOK: { symbol: 'kr', label: 'Norwegian Krone (kr)', position: 'after' }
+  NOK: { symbol: 'kr', label: 'Norwegian Krone (kr)', position: 'after' },
+  DKK: { symbol: 'kr', label: 'Danish Krone (kr)', position: 'after' },
+  PLN: { symbol: 'zł', label: 'Polish Złoty (zł)', position: 'after' }
 };
 
 // Conversion constants
