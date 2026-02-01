@@ -1,7 +1,20 @@
 // ========== PORSCHE ELECTRIC VEHICLE SPECIFICATIONS ==========
 // Complete database of Porsche EV models with battery and range specifications
+//
+// Notes:
+// - PB = Performance Battery (smaller)
+// - PB+ = Performance Battery Plus (larger)
+// - Sport Turismo was introduced in 2022, hence starts from 2022
+// - Cross Turismo was introduced in 2021
+// - Turbo GT is only available as a sedan (no Cross Turismo or Sport Turismo version)
+// - Sport Turismo has a base RWD version; Cross Turismo does not (all Cross Turismo are AWD)
+// - Macan Electric GTS announced October 2025, available 2025+
+//
+// Total: 54 model variants
 
 export const PORSCHE_EV_MODELS = [
+  // ========== TAYCAN SEDAN ==========
+
   // Taycan Sedan - Base RWD
   { id: 'taycan-base-rwd-pb-2020', name: 'Taycan Base RWD PB (2020-2024)', grossBattery: 79.2, usableBattery: 71.0, wltpRange: 431, wltpConsumption: 21.6, generation: 'J1.1', bodyStyle: 'sedan' },
   { id: 'taycan-base-rwd-pb-2025', name: 'Taycan Base RWD PB (2025+)', grossBattery: 89.0, usableBattery: 82.3, wltpRange: 547, wltpConsumption: 17.9, generation: 'J1.2', bodyStyle: 'sedan' },
@@ -35,6 +48,8 @@ export const PORSCHE_EV_MODELS = [
   // Taycan Sedan - Turbo GT
   { id: 'taycan-turbo-gt-2025', name: 'Taycan Turbo GT (2025+)', grossBattery: 105.0, usableBattery: 97.0, wltpRange: 498, wltpConsumption: 20.9, generation: 'J1.2', bodyStyle: 'sedan' },
 
+  // ========== TAYCAN CROSS TURISMO ==========
+
   // Taycan Cross Turismo - 4
   { id: 'taycan-ct-4-pb-2021', name: 'Taycan Cross Turismo 4 PB (2021-2024)', grossBattery: 79.2, usableBattery: 71.0, wltpRange: 403, wltpConsumption: 22.8, generation: 'J1.1', bodyStyle: 'cross-turismo' },
   { id: 'taycan-ct-4-pb-2025', name: 'Taycan Cross Turismo 4 PB (2025+)', grossBattery: 89.0, usableBattery: 82.3, wltpRange: 509, wltpConsumption: 19.2, generation: 'J1.2', bodyStyle: 'cross-turismo' },
@@ -59,9 +74,17 @@ export const PORSCHE_EV_MODELS = [
   { id: 'taycan-ct-turbo-s-2021', name: 'Taycan Cross Turismo Turbo S (2021-2024)', grossBattery: 93.4, usableBattery: 83.7, wltpRange: 393, wltpConsumption: 25.5, generation: 'J1.1', bodyStyle: 'cross-turismo' },
   { id: 'taycan-ct-turbo-s-2025', name: 'Taycan Cross Turismo Turbo S (2025+)', grossBattery: 105.0, usableBattery: 97.0, wltpRange: 540, wltpConsumption: 19.3, generation: 'J1.2', bodyStyle: 'cross-turismo' },
 
+  // ========== TAYCAN SPORT TURISMO ==========
+
+  // Taycan Sport Turismo - Base RWD
+  { id: 'taycan-st-base-rwd-pb-2022', name: 'Taycan Sport Turismo Base RWD PB (2022-2024)', grossBattery: 79.2, usableBattery: 71.0, wltpRange: 431, wltpConsumption: 21.6, generation: 'J1.1', bodyStyle: 'sport-turismo' },
+  { id: 'taycan-st-base-rwd-pb-2025', name: 'Taycan Sport Turismo Base RWD PB (2025+)', grossBattery: 89.0, usableBattery: 82.3, wltpRange: 547, wltpConsumption: 17.9, generation: 'J1.2', bodyStyle: 'sport-turismo' },
+  { id: 'taycan-st-base-rwd-pb+-2022', name: 'Taycan Sport Turismo Base RWD PB+ (2022-2024)', grossBattery: 93.4, usableBattery: 83.7, wltpRange: 458, wltpConsumption: 22.2, generation: 'J1.1', bodyStyle: 'sport-turismo' },
+  { id: 'taycan-st-base-rwd-pb+-2025', name: 'Taycan Sport Turismo Base RWD PB+ (2025+)', grossBattery: 105.0, usableBattery: 97.0, wltpRange: 638, wltpConsumption: 18.2, generation: 'J1.2', bodyStyle: 'sport-turismo' },
+
   // Taycan Sport Turismo - 4S
-  { id: 'taycan-st-4s-pb-2022', name: 'Taycan Sport Turismo 4S (2022-2024)', grossBattery: 79.2, usableBattery: 71.0, wltpRange: 384, wltpConsumption: 23.5, generation: 'J1.1', bodyStyle: 'sport-turismo' },
-  { id: 'taycan-st-4s-pb-2025', name: 'Taycan Sport Turismo 4S (2025+)', grossBattery: 89.0, usableBattery: 82.3, wltpRange: 492, wltpConsumption: 18.9, generation: 'J1.2', bodyStyle: 'sport-turismo' },
+  { id: 'taycan-st-4s-pb-2022', name: 'Taycan Sport Turismo 4S PB (2022-2024)', grossBattery: 79.2, usableBattery: 71.0, wltpRange: 384, wltpConsumption: 23.5, generation: 'J1.1', bodyStyle: 'sport-turismo' },
+  { id: 'taycan-st-4s-pb-2025', name: 'Taycan Sport Turismo 4S PB (2025+)', grossBattery: 89.0, usableBattery: 82.3, wltpRange: 492, wltpConsumption: 18.9, generation: 'J1.2', bodyStyle: 'sport-turismo' },
   { id: 'taycan-st-4s-pb+-2022', name: 'Taycan Sport Turismo 4S PB+ (2022-2024)', grossBattery: 93.4, usableBattery: 83.7, wltpRange: 443, wltpConsumption: 23.2, generation: 'J1.1', bodyStyle: 'sport-turismo' },
   { id: 'taycan-st-4s-pb+-2025', name: 'Taycan Sport Turismo 4S PB+ (2025+)', grossBattery: 105.0, usableBattery: 97.0, wltpRange: 558, wltpConsumption: 18.9, generation: 'J1.2', bodyStyle: 'sport-turismo' },
 
@@ -69,13 +92,24 @@ export const PORSCHE_EV_MODELS = [
   { id: 'taycan-st-gts-2022', name: 'Taycan Sport Turismo GTS (2022-2024)', grossBattery: 93.4, usableBattery: 83.7, wltpRange: 405, wltpConsumption: 24.5, generation: 'J1.1', bodyStyle: 'sport-turismo' },
   { id: 'taycan-st-gts-2025', name: 'Taycan Sport Turismo GTS (2025+)', grossBattery: 105.0, usableBattery: 97.0, wltpRange: 529, wltpConsumption: 19.0, generation: 'J1.2', bodyStyle: 'sport-turismo' },
 
-  // Macan Electric
+  // Taycan Sport Turismo - Turbo
+  { id: 'taycan-st-turbo-2022', name: 'Taycan Sport Turismo Turbo (2022-2024)', grossBattery: 93.4, usableBattery: 83.7, wltpRange: 397, wltpConsumption: 25.2, generation: 'J1.1', bodyStyle: 'sport-turismo' },
+  { id: 'taycan-st-turbo-2025', name: 'Taycan Sport Turismo Turbo (2025+)', grossBattery: 105.0, usableBattery: 97.0, wltpRange: 523, wltpConsumption: 19.4, generation: 'J1.2', bodyStyle: 'sport-turismo' },
+
+  // Taycan Sport Turismo - Turbo S
+  { id: 'taycan-st-turbo-s-2022', name: 'Taycan Sport Turismo Turbo S (2022-2024)', grossBattery: 93.4, usableBattery: 83.7, wltpRange: 393, wltpConsumption: 25.5, generation: 'J1.1', bodyStyle: 'sport-turismo' },
+  { id: 'taycan-st-turbo-s-2025', name: 'Taycan Sport Turismo Turbo S (2025+)', grossBattery: 105.0, usableBattery: 97.0, wltpRange: 577, wltpConsumption: 19.3, generation: 'J1.2', bodyStyle: 'sport-turismo' },
+
+  // ========== MACAN ELECTRIC ==========
+
   { id: 'macan-base-rwd-2025', name: 'Macan Electric Base RWD (2025+)', grossBattery: 100.0, usableBattery: 95.0, wltpRange: 627, wltpConsumption: 18.0, generation: 'Gen1', bodyStyle: 'suv' },
   { id: 'macan-4-2024', name: 'Macan Electric 4 (2024+)', grossBattery: 100.0, usableBattery: 95.0, wltpRange: 570, wltpConsumption: 19.1, generation: 'Gen1', bodyStyle: 'suv' },
   { id: 'macan-4s-2025', name: 'Macan Electric 4S (2025+)', grossBattery: 100.0, usableBattery: 95.0, wltpRange: 565, wltpConsumption: 19.1, generation: 'Gen1', bodyStyle: 'suv' },
+  { id: 'macan-gts-2025', name: 'Macan Electric GTS (2025+)', grossBattery: 100.0, usableBattery: 95.0, wltpRange: 586, wltpConsumption: 19.5, generation: 'Gen1', bodyStyle: 'suv' },
   { id: 'macan-turbo-2024', name: 'Macan Electric Turbo (2024+)', grossBattery: 100.0, usableBattery: 95.0, wltpRange: 559, wltpConsumption: 19.5, generation: 'Gen1', bodyStyle: 'suv' },
 
-  // Cayenne Electric
+  // ========== CAYENNE ELECTRIC ==========
+
   { id: 'cayenne-base-2026', name: 'Cayenne Electric Base (2026)', grossBattery: 113.0, usableBattery: 108.0, wltpRange: 642, wltpConsumption: 20.8, generation: 'Gen1', bodyStyle: 'suv' },
   { id: 'cayenne-turbo-2026', name: 'Cayenne Electric Turbo (2026)', grossBattery: 113.0, usableBattery: 108.0, wltpRange: 623, wltpConsumption: 21.4, generation: 'Gen1', bodyStyle: 'suv' }
 ];

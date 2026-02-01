@@ -141,10 +141,15 @@ export const de = {
     // Vehicle notes
     vehicleNotesTitle: 'Hinweise zu Fahrzeugspezifikationen',
     noteWltp: 'Reichweitenwerte basieren auf offiziellen WLTP-Kombinationszyklus-Daten',
-    notePb: 'Performance Battery (Standard-/kleinere Batterieoption)',
-    notePbPlus: 'Performance Battery Plus (optionale/größere Batterie)',
+    notePb: 'PB = Performance Battery (kleiner)',
+    notePbPlus: 'PB+ = Performance Battery Plus (größer)',
     noteJ11: 'Modelle 2020-2024 (erste Generation)',
     noteJ12: 'Modelle 2025+ (Facelift mit ~35% mehr Reichweite)',
+    noteSportTurismo: 'Sport Turismo wurde 2022 eingeführt',
+    noteCrossTurismo: 'Cross Turismo wurde 2021 eingeführt',
+    noteTurboGt: 'Turbo GT ist nur als Limousine erhältlich',
+    noteSportTurismoRwd: 'Sport Turismo hat eine Base RWD-Version; Cross Turismo nicht (alle sind AWD)',
+    noteMacanGts: 'Macan Electric GTS im Oktober 2025 angekündigt',
 
     // Data management section
     dataManagement: 'Datenverwaltung',

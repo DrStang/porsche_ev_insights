@@ -141,10 +141,15 @@ export const ja = {
     // Vehicle notes
     vehicleNotesTitle: '車両仕様に関する注記',
     noteWltp: '航続距離は公式WLTPコンバインドサイクルデータに基づく',
-    notePb: 'Performance Battery（標準/小型バッテリー）',
-    notePbPlus: 'Performance Battery Plus（オプション/大型バッテリー）',
+    notePb: 'PB = Performance Battery（小型）',
+    notePbPlus: 'PB+ = Performance Battery Plus（大型）',
     noteJ11: '2020-2024年モデル（第1世代）',
     noteJ12: '2025年以降モデル（マイナーチェンジで約35%航続距離向上）',
+    noteSportTurismo: 'Sport Turismoは2022年に導入',
+    noteCrossTurismo: 'Cross Turismoは2021年に導入',
+    noteTurboGt: 'Turbo GTはセダンのみで利用可能',
+    noteSportTurismoRwd: 'Sport TurismoにはBase RWD版あり、Cross Turismoにはなし（全車AWD）',
+    noteMacanGts: 'Macan Electric GTSは2025年10月発表',
 
     // Data management section
     dataManagement: 'データ管理',

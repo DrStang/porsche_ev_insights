@@ -141,10 +141,15 @@ export const nl = {
     // Vehicle notes
     vehicleNotesTitle: 'Opmerkingen over specificaties',
     noteWltp: 'Bereikwaarden zijn gebaseerd op officiële WLTP gecombineerde cyclusgegevens',
-    notePb: 'Performance Battery (standaard/kleinere batterijoptie)',
-    notePbPlus: 'Performance Battery Plus (optionele/grotere batterij)',
+    notePb: 'PB = Performance Battery (kleiner)',
+    notePbPlus: 'PB+ = Performance Battery Plus (groter)',
     noteJ11: 'Modellen 2020-2024 (eerste generatie)',
     noteJ12: 'Modellen 2025+ (facelift met ~35% meer bereik)',
+    noteSportTurismo: 'Sport Turismo werd geïntroduceerd in 2022',
+    noteCrossTurismo: 'Cross Turismo werd geïntroduceerd in 2021',
+    noteTurboGt: 'Turbo GT is alleen beschikbaar als sedan',
+    noteSportTurismoRwd: 'Sport Turismo heeft een Base RWD-versie; Cross Turismo niet (alle zijn AWD)',
+    noteMacanGts: 'Macan Electric GTS aangekondigd in oktober 2025',
 
     // Data management section
     dataManagement: 'Gegevensbeheer',

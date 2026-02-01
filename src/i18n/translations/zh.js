@@ -141,10 +141,15 @@ export const zh = {
     // Vehicle notes
     vehicleNotesTitle: '车辆规格说明',
     noteWltp: '续航数据基于官方WLTP综合工况数据',
-    notePb: 'Performance Battery（标准/小容量电池）',
-    notePbPlus: 'Performance Battery Plus（选配/大容量电池）',
+    notePb: 'PB = Performance Battery（小容量）',
+    notePbPlus: 'PB+ = Performance Battery Plus（大容量）',
     noteJ11: '2020-2024款车型（第一代）',
     noteJ12: '2025+款车型（中期改款，续航提升约35%）',
+    noteSportTurismo: 'Sport Turismo于2022年推出',
+    noteCrossTurismo: 'Cross Turismo于2021年推出',
+    noteTurboGt: 'Turbo GT仅提供轿车版本',
+    noteSportTurismoRwd: 'Sport Turismo有Base RWD版本；Cross Turismo没有（全系AWD）',
+    noteMacanGts: 'Macan Electric GTS于2025年10月发布',
 
     // Data management section
     dataManagement: '数据管理',

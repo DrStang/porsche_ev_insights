@@ -141,10 +141,15 @@ export const it = {
     // Vehicle notes
     vehicleNotesTitle: 'Note sulle specifiche',
     noteWltp: 'I valori di autonomia sono basati sui dati ufficiali del ciclo combinato WLTP',
-    notePb: 'Performance Battery (opzione batteria standard/piccola)',
-    notePbPlus: 'Performance Battery Plus (batteria opzionale/grande)',
+    notePb: 'PB = Performance Battery (piccola)',
+    notePbPlus: 'PB+ = Performance Battery Plus (grande)',
     noteJ11: 'Modelli 2020-2024 (prima generazione)',
     noteJ12: 'Modelli 2025+ (aggiornamento con ~35% di autonomia in più)',
+    noteSportTurismo: 'Sport Turismo è stato introdotto nel 2022',
+    noteCrossTurismo: 'Cross Turismo è stato introdotto nel 2021',
+    noteTurboGt: 'Turbo GT è disponibile solo come berlina',
+    noteSportTurismoRwd: 'Sport Turismo ha una versione Base RWD; Cross Turismo no (tutti sono AWD)',
+    noteMacanGts: 'Macan Electric GTS annunciato a ottobre 2025',
 
     // Data management section
     dataManagement: 'Gestione dati',
