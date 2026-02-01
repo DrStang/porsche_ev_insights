@@ -46,7 +46,8 @@ export const nl = {
     title: 'Porsche EV Insights',
     subtitle: 'EV-ritanalyse',
     localFirst: 'LOKAAL',
-    privacyFirst: 'PRIVACY'
+    privacyFirst: 'PRIVACY',
+    help: 'HULP'
   },
 
   // Navigation tabs

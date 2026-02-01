@@ -46,7 +46,8 @@ export const ja = {
     title: 'ポルシェEVインサイト',
     subtitle: 'EVトリップ分析',
     localFirst: 'ローカル優先',
-    privacyFirst: 'プライバシー優先'
+    privacyFirst: 'プライバシー優先',
+    help: 'ヘルプ'
   },
 
   // Navigation tabs

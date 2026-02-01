@@ -46,7 +46,8 @@ export const en = {
     title: 'Porsche EV Insights',
     subtitle: 'EV Trip Analytics',
     localFirst: 'LOCAL-FIRST',
-    privacyFirst: 'PRIVACY-FIRST'
+    privacyFirst: 'PRIVACY-FIRST',
+    help: 'HELP'
   },
 
   // Navigation tabs

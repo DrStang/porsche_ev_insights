@@ -19,14 +19,33 @@ export function Header({ darkMode, menuOpen, setMenuOpen }) {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <div className={`hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full ${darkMode ? 'bg-emerald-500/10 border-emerald-500/20' : 'bg-emerald-500/20 border-emerald-500/30'} border`}>
+            <a
+              href="https://github.com/jpleite/porsche_ev_insights"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full ${darkMode ? 'bg-emerald-500/10 border-emerald-500/20 hover:bg-emerald-500/20' : 'bg-emerald-500/20 border-emerald-500/30 hover:bg-emerald-500/30'} border transition-colors`}
+            >
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
               <span className={`text-xs font-medium ${darkMode ? 'text-emerald-400' : 'text-emerald-600'}`}>{t('header.localFirst')}</span>
-            </div>
-            <div className={`hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full ${darkMode ? 'bg-blue-500/10 border-blue-500/20' : 'bg-blue-500/20 border-blue-500/30'} border`}>
+            </a>
+            <a
+              href="https://github.com/jpleite/porsche_ev_insights"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full ${darkMode ? 'bg-blue-500/10 border-blue-500/20 hover:bg-blue-500/20' : 'bg-blue-500/20 border-blue-500/30 hover:bg-blue-500/30'} border transition-colors`}
+            >
               <span className="w-2 h-2 rounded-full bg-blue-500"></span>
               <span className={`text-xs font-medium ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{t('header.privacyFirst')}</span>
-            </div>
+            </a>
+            <a
+              href="https://github.com/jpleite/porsche_ev_insights/wiki"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full ${darkMode ? 'bg-amber-500/10 border-amber-500/20 hover:bg-amber-500/20' : 'bg-amber-500/20 border-amber-500/30 hover:bg-amber-500/30'} border transition-colors`}
+            >
+              <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+              <span className={`text-xs font-medium ${darkMode ? 'text-amber-400' : 'text-amber-600'}`}>{t('header.help')}</span>
+            </a>
             {/* Menu toggle button - visible on mobile/tablet */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}

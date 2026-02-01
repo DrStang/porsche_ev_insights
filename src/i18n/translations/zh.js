@@ -46,7 +46,8 @@ export const zh = {
     title: '保时捷EV洞察',
     subtitle: '电动车行程分析',
     localFirst: '本地优先',
-    privacyFirst: '隐私优先'
+    privacyFirst: '隐私优先',
+    help: '帮助'
   },
 
   // Navigation tabs
