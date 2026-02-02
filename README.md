@@ -216,7 +216,7 @@ Contributions are welcome! Feel free to:
 
 ## Release History
 
-### v1.3.1-beta (February 2026)
+### v1.3.2-beta (February 2026)
 - **Bug fix**: Trips per Hour chart now shows all 24 hours (00-23) even when some hours have no trips
 
 ### v1.3.0-beta (January 2026)
