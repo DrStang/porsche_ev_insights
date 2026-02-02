@@ -141,12 +141,16 @@ export const ja = {
     usableBatterySpec: '使用可能容量',
     wltpRange: 'WLTP航続距離',
     wltpConsumption: 'WLTP消費',
+    epaRange: 'EPA航続距離',
+    epaMpge: 'EPA効率',
     batteryCapacity: '使用可能バッテリー容量 (kWh)',
     batteryCapacityHelp: '車両選択時に自動入力。手動で変更可能。',
 
     // Vehicle notes
     vehicleNotesTitle: '車両仕様に関する注記',
     noteWltp: '航続距離は公式WLTPコンバインドサイクルデータに基づく',
+    noteEpa: '航続距離と効率は米国EPA公式テストサイクルデータに基づく',
+    noteMpge: 'マイル/ガロン相当（33.7 kWh = ガソリン1ガロン）',
     notePb: 'PB = Performance Battery（小型）',
     notePbPlus: 'PB+ = Performance Battery Plus（大型）',
     noteJ11: '2020-2024年モデル（第1世代）',

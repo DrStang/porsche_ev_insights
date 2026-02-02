@@ -141,12 +141,16 @@ export const zh = {
     usableBatterySpec: '可用电池容量',
     wltpRange: 'WLTP续航',
     wltpConsumption: 'WLTP能耗',
+    epaRange: 'EPA续航',
+    epaMpge: 'EPA能效',
     batteryCapacity: '可用电池容量 (kWh)',
     batteryCapacityHelp: '选择车辆时自动填充。如需要可手动修改。',
 
     // Vehicle notes
     vehicleNotesTitle: '车辆规格说明',
     noteWltp: '续航数据基于官方WLTP综合工况数据',
+    noteEpa: '续航和能效基于美国EPA官方测试循环数据',
+    noteMpge: '每加仑英里当量（33.7 kWh = 1加仑汽油）',
     notePb: 'PB = Performance Battery（小容量）',
     notePbPlus: 'PB+ = Performance Battery Plus（大容量）',
     noteJ11: '2020-2024款车型（第一代）',

@@ -45,7 +45,7 @@ Now also supporting **Audi e-tron GT** - which shares the same J1 platform as th
 | **Battery Insights** | Charging patterns and battery usage statistics |
 | **Smart Insights** | AI-generated observations about your driving habits |
 | **Data Merge** | Import new CSV exports and merge with existing data (no duplicates) |
-| **Vehicle Selection** | Choose from 54+ EV models (Porsche + Audi e-tron GT) with accurate WLTP specs |
+| **Vehicle Selection** | Choose from 54+ EV models (Porsche + Audi e-tron GT) with accurate WLTP/EPA specs |
 | **EV Comparison** | Compare your real-world consumption vs WLTP and other EVs |
 | **Flexible Units** | Support for Metric, Imperial (UK), and Imperial (US) units |
 | **10 Languages** | EN, PT, ES, FR, DE, IT, NL, PL, ZH, JA |
@@ -90,7 +90,10 @@ The app supports multiple unit systems and currencies to match your preferences:
 
 **Electric Consumption:**
 - Metric: `kWh/100km` or `km/kWh`
-- Imperial: `mi/kWh`, `kWh/mi`, or `kWh/100mi`
+- Imperial (UK): `mi/kWh`, `kWh/mi`, or `kWh/100mi`
+- Imperial (US): `MPGe`, `mi/kWh`, `kWh/mi`, or `kWh/100mi`
+
+**Note:** US users see EPA ratings and can display efficiency as MPGe (Miles Per Gallon equivalent). Other regions see WLTP ratings.
 
 **Fuel Consumption (for comparison):**
 - Metric: `L/100km` or `km/L`
@@ -240,6 +243,13 @@ Contributions are welcome! Feel free to:
 - Submit pull requests
 
 ## Release History
+
+### v1.4.0-beta (February 2026)
+- **EPA/MPGe support**: US users now see EPA ratings instead of WLTP values
+- **MPGe display**: New electric consumption format (Miles Per Gallon equivalent)
+- **Official EPA values**: All 54+ vehicle models updated with EPA range and MPGe ratings
+- **Smart standard switching**: Automatically uses EPA for Imperial (US), WLTP for others
+- **Updated comparisons**: Competitor EVs (Model S, EQS, i7) include both EPA and WLTP specs
 
 ### v1.3.3-beta (February 2026)
 - **Audi e-tron GT support**: Import trip data from myAudi app ZIP exports

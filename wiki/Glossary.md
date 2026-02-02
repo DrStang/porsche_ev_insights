@@ -46,7 +46,15 @@ The amount of energy used per unit of distance. In metric, expressed as kWh/100k
 
 ### WLTP
 
-Worldwide Harmonised Light Vehicle Test Procedure. A standardized testing protocol used to measure vehicle range and consumption. WLTP figures are measured in laboratory conditions and are typically more optimistic than real-world results.
+Worldwide Harmonised Light Vehicle Test Procedure. A standardized testing protocol used in Europe and other regions to measure vehicle range and consumption. WLTP figures are measured in laboratory conditions and are typically more optimistic than real-world results.
+
+### EPA
+
+Environmental Protection Agency. The US government agency that establishes fuel economy and electric vehicle efficiency ratings. EPA tests use different driving cycles than WLTP and typically result in lower range estimates that are closer to real-world driving.
+
+### MPGe (Miles Per Gallon equivalent)
+
+A US EPA metric for comparing electric vehicle efficiency to gasoline vehicles. Based on the energy content of gasoline (33.7 kWh per gallon), MPGe converts EV energy consumption to an equivalent MPG figure. Formula: MPGe = 3370 / (kWh per 100 miles). Higher is better.
 
 ### Real-World Range
 
@@ -180,6 +188,10 @@ Fuel consumption measurement used in metric regions. Lower is better.
 ### MPG (Miles per gallon)
 
 Fuel economy measurement used in imperial regions. Higher is better. Note: UK and US gallons differ in size.
+
+### MPGe (Miles per gallon equivalent)
+
+US EPA measurement for electric vehicle efficiency. Allows comparison with gasoline vehicles by expressing EV efficiency in familiar MPG terms. Based on 33.7 kWh = energy in 1 gallon of gasoline.
 
 ### g/kWh (Grams per kilowatt-hour)
 

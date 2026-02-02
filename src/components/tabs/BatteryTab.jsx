@@ -15,6 +15,9 @@ export function BatteryTab({
 }) {
   const { t } = useTranslation();
 
+  // Determine the official standard label (EPA for US, WLTP otherwise)
+  const officialLabel = batteryAnalysis?.useEpa ? 'EPA' : 'WLTP';
+
   return (
     <div className="space-y-5">
       {/* Range Hero Card */}
@@ -77,7 +80,7 @@ export function BatteryTab({
               <Tooltip contentStyle={{ background: chartColors.tooltipBg, border: `1px solid ${chartColors.tooltipBorder}`, borderRadius: '8px' }} itemStyle={{ color: chartColors.tooltipText }} labelStyle={{ color: chartColors.tooltipText }} />
               <Legend />
               <Area type="monotone" dataKey="consumption" name={units.elecConsUnit} stroke="#8b5cf6" fill="#8b5cf644" strokeWidth={2} />
-              <Line type="monotone" dataKey={() => units.elecCons(batteryAnalysis.officialConsumption).value} name="WLTP" stroke="#22c55e" strokeWidth={2} strokeDasharray="5 5" dot={false} />
+              <Line type="monotone" dataKey={() => units.elecCons(batteryAnalysis.officialConsumption).value} name={officialLabel} stroke="#22c55e" strokeWidth={2} strokeDasharray="5 5" dot={false} />
             </ComposedChart>
           </ResponsiveContainer>
         </ChartCard>

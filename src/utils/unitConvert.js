@@ -33,5 +33,19 @@ export const unitConvert = {
   // Imperial formats
   kwh100kmToMiKwh: (kwh100km) => kwh100km > 0 ? precise.div(100, precise.mul(kwh100km, MI_TO_KM)) : 0,
   kwh100kmToKwhMi: (kwh100km) => kwh100km > 0 ? precise.mul(kwh100km, MI_TO_KM / 100) : 0,
-  kwh100kmToKwh100mi: (kwh100km) => kwh100km > 0 ? precise.mul(kwh100km, MI_TO_KM) : 0
+  kwh100kmToKwh100mi: (kwh100km) => kwh100km > 0 ? precise.mul(kwh100km, MI_TO_KM) : 0,
+  // MPGe conversion (Miles Per Gallon equivalent)
+  // 33.7 kWh = energy in 1 gallon of gasoline
+  // MPGe = 3370 / (kWh per 100 miles)
+  kwh100kmToMpge: (kwh100km) => {
+    if (kwh100km <= 0) return 0;
+    const kwh100mi = precise.mul(kwh100km, MI_TO_KM);
+    return precise.div(3370, kwh100mi);
+  },
+  // Reverse: MPGe to kWh/100km (for comparison calculations)
+  mpgeToKwh100km: (mpge) => {
+    if (mpge <= 0) return 0;
+    const kwh100mi = precise.div(3370, mpge);
+    return precise.div(kwh100mi, MI_TO_KM);
+  }
 };

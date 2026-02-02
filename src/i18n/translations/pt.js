@@ -141,12 +141,16 @@ export const pt = {
     usableBatterySpec: 'Bateria Útil',
     wltpRange: 'Autonomia WLTP',
     wltpConsumption: 'Consumo WLTP',
+    epaRange: 'Autonomia EPA',
+    epaMpge: 'Eficiência EPA',
     batteryCapacity: 'Capacidade Útil da Bateria (kWh)',
     batteryCapacityHelp: 'Preenchido automaticamente ao selecionar um veículo. Pode alterar manualmente se necessário.',
 
     // Vehicle notes
     vehicleNotesTitle: 'Notas sobre Especificações',
     noteWltp: 'Valores de autonomia baseados em dados oficiais do ciclo combinado WLTP',
+    noteEpa: 'Autonomia e eficiência baseadas em dados oficiais do ciclo de teste EPA dos EUA',
+    noteMpge: 'Milhas por galão equivalente (33,7 kWh = 1 galão de gasolina)',
     notePb: 'PB = Performance Battery (menor)',
     notePbPlus: 'PB+ = Performance Battery Plus (maior)',
     noteJ11: 'Modelos 2020-2024 (primeira geração)',

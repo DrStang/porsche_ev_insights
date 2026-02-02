@@ -43,6 +43,12 @@ export const ELECTRIC_CONSUMPTION_FORMATS = {
     { id: 'mi/kWh', label: 'mi/kWh' },
     { id: 'kWh/mi', label: 'kWh/mi' },
     { id: 'kWh/100mi', label: 'kWh/100mi' }
+  ],
+  imperial_us: [
+    { id: 'MPGe', label: 'MPGe' },
+    { id: 'mi/kWh', label: 'mi/kWh' },
+    { id: 'kWh/mi', label: 'kWh/mi' },
+    { id: 'kWh/100mi', label: 'kWh/100mi' }
   ]
 };
 

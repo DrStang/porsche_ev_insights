@@ -51,8 +51,8 @@ Select your specific Porsche EV model from the dropdown. Vehicles are grouped by
 When you select a vehicle, its specifications are displayed:
 - Gross battery capacity
 - Usable battery capacity
-- WLTP range
-- WLTP consumption
+- WLTP range and consumption (for Metric and Imperial UK users)
+- EPA range and MPGe rating (for Imperial US users)
 
 ### Battery Capacity
 
@@ -120,10 +120,18 @@ Choose how EV efficiency is displayed:
 - **kWh/100km** - Kilowatt-hours per 100 kilometers (lower is better)
 - **km/kWh** - Kilometers per kilowatt-hour (higher is better)
 
-**Imperial options:**
+**Imperial (UK) options:**
 - **mi/kWh** - Miles per kilowatt-hour (higher is better)
 - **kWh/mi** - Kilowatt-hours per mile (lower is better)
 - **kWh/100mi** - Kilowatt-hours per 100 miles (lower is better)
+
+**Imperial (US) options:**
+- **MPGe** - Miles Per Gallon equivalent (higher is better) - *default for US*
+- **mi/kWh** - Miles per kilowatt-hour (higher is better)
+- **kWh/mi** - Kilowatt-hours per mile (lower is better)
+- **kWh/100mi** - Kilowatt-hours per 100 miles (lower is better)
+
+**Note:** When Imperial (US) is selected, the dashboard uses EPA ratings instead of WLTP for vehicle comparisons. MPGe is the US EPA's standard for comparing EV efficiency to gasoline vehicles.
 
 ## Cost Settings
 
@@ -239,7 +247,9 @@ Load a previously saved backup file:
 ### Vehicle Specifications Notes
 
 Explains abbreviations used in vehicle specs:
-- **WLTP** - Worldwide Harmonised Light Vehicle Test Procedure
+- **WLTP** - Worldwide Harmonised Light Vehicle Test Procedure (used in Europe/UK)
+- **EPA** - Environmental Protection Agency ratings (used in US)
+- **MPGe** - Miles Per Gallon equivalent (33.7 kWh = 1 gallon of gasoline)
 - **PB** - Performance Battery
 - **PB+** - Performance Battery Plus
 - **J1.1** - First generation platform

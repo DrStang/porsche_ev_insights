@@ -141,12 +141,16 @@ export const nl = {
     usableBatterySpec: 'Bruikbare Batterij',
     wltpRange: 'WLTP-bereik',
     wltpConsumption: 'WLTP-verbruik',
+    epaRange: 'EPA-bereik',
+    epaMpge: 'EPA-efficiëntie',
     batteryCapacity: 'Bruikbare batterijcapaciteit (kWh)',
     batteryCapacityHelp: 'Automatisch ingevuld bij selectie voertuig. Handmatig aanpassen indien nodig.',
 
     // Vehicle notes
     vehicleNotesTitle: 'Opmerkingen over specificaties',
     noteWltp: 'Bereikwaarden zijn gebaseerd op officiële WLTP gecombineerde cyclusgegevens',
+    noteEpa: 'Bereik en efficiëntie gebaseerd op officiële US EPA-testcyclusgegevens',
+    noteMpge: 'Mijl per gallon equivalent (33,7 kWh = 1 gallon benzine)',
     notePb: 'PB = Performance Battery (kleiner)',
     notePbPlus: 'PB+ = Performance Battery Plus (groter)',
     noteJ11: 'Modellen 2020-2024 (eerste generatie)',

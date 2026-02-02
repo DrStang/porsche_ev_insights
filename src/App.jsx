@@ -122,8 +122,8 @@ export default function App() {
     } else if (unitSystem === 'imperial_us') {
       setCurrency('USD');
       setFuelConsFormat('mpg');
-      if (!['mi/kWh', 'kWh/mi', 'kWh/100mi'].includes(elecConsFormat)) {
-        setElecConsFormat('mi/kWh');
+      if (!['MPGe', 'mi/kWh', 'kWh/mi', 'kWh/100mi'].includes(elecConsFormat)) {
+        setElecConsFormat('MPGe');
       }
     }
   }, [unitSystem]);
@@ -151,6 +151,7 @@ export default function App() {
         case 'mi/kWh': return unitConvert.kwh100kmToMiKwh(kwh100km);
         case 'kWh/mi': return unitConvert.kwh100kmToKwhMi(kwh100km);
         case 'kWh/100mi': return unitConvert.kwh100kmToKwh100mi(kwh100km);
+        case 'MPGe': return unitConvert.kwh100kmToMpge(kwh100km);
         default: return kwh100km;
       }
     };
@@ -420,15 +421,34 @@ export default function App() {
   const batteryAnalysis = useMemo(() => {
     if (!data) return null;
 
-    // Use selected vehicle's WLTP range and consumption if available, otherwise fall back to TAYCAN_SPECS defaults
-    const officialRange = selectedVehicle?.wltpRange || TAYCAN_SPECS.officialRange;
-    const officialConsumption = selectedVehicle?.wltpConsumption || TAYCAN_SPECS.officialConsumption;
+    // Use EPA values for imperial_us, WLTP for metric/imperial_uk
+    const useEpa = unitSystem === 'imperial_us';
+
+    // Get official range and consumption based on unit system
+    // For EPA: range is in miles, consumption will be converted to user's format
+    // For WLTP: range is in km, consumption is kWh/100km
+    const officialRangeKm = useEpa
+      ? (selectedVehicle?.epaRange ? precise.mul(selectedVehicle.epaRange, MI_TO_KM) : TAYCAN_SPECS.officialRange)
+      : (selectedVehicle?.wltpRange || TAYCAN_SPECS.officialRange);
+
+    // For consumption comparison, we need kWh/100km internally
+    // EPA MPGe can be converted: kWh/100km = 3370 / (MPGe * 1.60934)
+    const officialConsumption = useEpa
+      ? (selectedVehicle?.epaMpge ? unitConvert.mpgeToKwh100km(selectedVehicle.epaMpge) : TAYCAN_SPECS.officialConsumption)
+      : (selectedVehicle?.wltpConsumption || TAYCAN_SPECS.officialConsumption);
+
+    // Store the display values (in user's preferred units)
+    const officialRangeMiles = useEpa
+      ? (selectedVehicle?.epaRange || Math.round(unitConvert.kmToMi(TAYCAN_SPECS.officialRange)))
+      : null;
+    const officialMpge = useEpa ? (selectedVehicle?.epaMpge || 80) : null;
+
     const usableBattery = batteryCapacity; // Use user-configurable battery capacity
 
     const realWorldRange = data.summary.avgConsumption > 0
       ? precise.div(precise.mul(usableBattery, 100), data.summary.avgConsumption)
       : 0;
-    const rangeEfficiency = officialRange > 0 ? Math.round((realWorldRange / officialRange) * 100) : 0;
+    const rangeEfficiency = officialRangeKm > 0 ? Math.round((realWorldRange / officialRangeKm) * 100) : 0;
     const energyPerTrip = data.summary.totalTrips > 0 ? precise.div(data.summary.totalEnergy, data.summary.totalTrips) : 0;
     const tripsPerFullCharge = energyPerTrip > 0 ? Math.floor(usableBattery / energyPerTrip) : 0;
     const distancePerCharge = data.summary.totalChargeCycles > 0 ? precise.div(data.summary.totalDistance, data.summary.totalChargeCycles) : 0;
@@ -441,8 +461,11 @@ export default function App() {
 
     return {
       realWorldRange: Math.round(realWorldRange),
-      officialRange,
-      officialConsumption,
+      officialRange: officialRangeKm, // Always in km internally
+      officialRangeMiles, // EPA range in miles (null if not using EPA)
+      officialConsumption, // Always in kWh/100km internally
+      officialMpge, // EPA MPGe (null if not using EPA)
+      useEpa, // Flag to indicate which standard is being used
       rangeEfficiency,
       energyPerTrip: precise.round(energyPerTrip, 2),
       tripsPerFullCharge,
@@ -453,7 +476,7 @@ export default function App() {
       worstMonth,
       seasonalVariation
     };
-  }, [data, batteryCapacity, selectedVehicle]);
+  }, [data, batteryCapacity, selectedVehicle, unitSystem]);
 
   // ========== PREDICTIVE ANALYTICS ==========
   const predictions = useMemo(() => {
@@ -538,8 +561,13 @@ export default function App() {
     if (!data) return null;
 
     const { taycanBenchmark } = TAYCAN_SPECS;
-    // Use selected vehicle's WLTP consumption for comparison, or fall back to Taycan average
-    const officialConsumption = selectedVehicle?.wltpConsumption || taycanBenchmark.avgConsumption;
+    const useEpa = unitSystem === 'imperial_us';
+
+    // Use selected vehicle's EPA/WLTP consumption for comparison based on unit system
+    const officialConsumption = useEpa
+      ? (selectedVehicle?.epaMpge ? unitConvert.mpgeToKwh100km(selectedVehicle.epaMpge) : taycanBenchmark.avgConsumption)
+      : (selectedVehicle?.wltpConsumption || taycanBenchmark.avgConsumption);
+
     const vsAvgTaycan = data.summary.avgConsumption > 0 ? Math.round(((data.summary.avgConsumption / officialConsumption) - 1) * 100) : 0;
     let efficiencyRating = 3;
     if (data.summary.avgConsumption <= 24) efficiencyRating = 5;
@@ -569,18 +597,36 @@ export default function App() {
       ? getVehicleTranslationKey(selectedVehicle.name)
       : { key: 'yourPorsche', shortName: vehicleDisplayName?.modelShort || 'Porsche' };
     const yourVehicleName = t(`benchmark.${translationKey}`);
-    const wltpLabel = selectedVehicle ? `${shortModelName} WLTP` : (vehicleDisplayName?.avgLabel || 'Porsche Avg');
 
-    // Build competitors list: Your real-world data vs WLTP official + other EVs for context
-    const wltpConsumption = selectedVehicle?.wltpConsumption || 24.8;
-    const wltpRange = selectedVehicle?.wltpRange || TAYCAN_SPECS.officialRange;
+    // Use EPA or WLTP label based on unit system
+    const officialLabel = useEpa ? 'EPA' : 'WLTP';
+    const benchmarkLabel = selectedVehicle ? `${shortModelName} ${officialLabel}` : (vehicleDisplayName?.avgLabel || 'Porsche Avg');
+
+    // Build competitors list: Your real-world data vs official rating + other EVs for context
+    // Use EPA values for US, WLTP for others
+    const officialBenchmarkConsumption = useEpa
+      ? (selectedVehicle?.epaMpge ? unitConvert.mpgeToKwh100km(selectedVehicle.epaMpge) : 24.8)
+      : (selectedVehicle?.wltpConsumption || 24.8);
+    const officialBenchmarkRange = useEpa
+      ? (selectedVehicle?.epaRange ? precise.mul(selectedVehicle.epaRange, MI_TO_KM) : TAYCAN_SPECS.officialRange)
+      : (selectedVehicle?.wltpRange || TAYCAN_SPECS.officialRange);
+
+    // Competitor EVs - use EPA values for US, WLTP for others
+    // EPA: Model S ~120 MPGe, 405 mi; EQS ~97 MPGe, 350 mi; i7 ~85 MPGe, 318 mi
+    // WLTP: Model S ~18.5 kWh/100km, 652 km; EQS ~20.5 kWh/100km, 640 km; i7 ~22 kWh/100km, 610 km
+    const modelSConsumption = useEpa ? unitConvert.mpgeToKwh100km(120) : 18.5;
+    const modelSRange = useEpa ? precise.mul(405, MI_TO_KM) : 652;
+    const eqsConsumption = useEpa ? unitConvert.mpgeToKwh100km(97) : 20.5;
+    const eqsRange = useEpa ? precise.mul(350, MI_TO_KM) : 640;
+    const i7Consumption = useEpa ? unitConvert.mpgeToKwh100km(85) : 22.0;
+    const i7Range = useEpa ? precise.mul(318, MI_TO_KM) : 610;
 
     const competitors = [
       { name: yourVehicleName, consumption: data.summary.avgConsumption, range: batteryAnalysis?.realWorldRange || 0 },
-      { name: wltpLabel, consumption: wltpConsumption, range: wltpRange },
-      { name: 'Model S', consumption: 18.5, range: 420 },
-      { name: 'EQS', consumption: 20.5, range: 400 },
-      { name: 'BMW i7', consumption: 22.0, range: 380 }
+      { name: benchmarkLabel, consumption: officialBenchmarkConsumption, range: officialBenchmarkRange },
+      { name: 'Model S', consumption: modelSConsumption, range: modelSRange },
+      { name: 'EQS', consumption: eqsConsumption, range: eqsRange },
+      { name: 'BMW i7', consumption: i7Consumption, range: i7Range }
     ];
 
     return {
@@ -589,13 +635,16 @@ export default function App() {
       shortTripPenalty,
       microTripRatio,
       competitors,
-      wltpLabel,
-      wltpConsumption,
+      useEpa,
+      officialLabel,
+      benchmarkLabel,
+      officialConsumption: officialBenchmarkConsumption,
+      officialMpge: useEpa ? (selectedVehicle?.epaMpge || 80) : null,
       drivingProfile: data.summary.avgTripDistance < 15 ? t('drivingProfiles.urbanCommuter')
         : data.summary.avgTripDistance < 30 ? t('drivingProfiles.mixedUse')
         : t('drivingProfiles.highwayCruiser')
     };
-  }, [data, batteryAnalysis, vehicleDisplayName, selectedVehicle, t]);
+  }, [data, batteryAnalysis, vehicleDisplayName, selectedVehicle, unitSystem, t]);
 
   // ========== DRIVING INSIGHTS ==========
   const drivingInsights = useMemo(() => {

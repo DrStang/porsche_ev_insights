@@ -141,12 +141,16 @@ export const en = {
     usableBatterySpec: 'Usable Battery',
     wltpRange: 'WLTP Range',
     wltpConsumption: 'WLTP Consumption',
+    epaRange: 'EPA Range',
+    epaMpge: 'EPA Efficiency',
     batteryCapacity: 'Usable Battery Capacity (kWh)',
     batteryCapacityHelp: 'Auto-filled when selecting a vehicle. You can manually override if needed.',
 
     // Vehicle notes
     vehicleNotesTitle: 'Vehicle Specifications Notes',
     noteWltp: 'Range values are based on official WLTP combined cycle data',
+    noteEpa: 'Range and efficiency based on official US EPA test cycle data',
+    noteMpge: 'Miles Per Gallon equivalent (33.7 kWh = 1 gallon of gasoline)',
     notePb: 'PB = Performance Battery (smaller)',
     notePbPlus: 'PB+ = Performance Battery Plus (larger)',
     noteJ11: '2020-2024 models (first generation)',

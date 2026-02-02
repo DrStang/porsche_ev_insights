@@ -88,14 +88,29 @@ export function SettingsPage({
                   <span>{t('settings.usableBatterySpec')}:</span>
                   <span className="font-medium">{selectedVehicle.usableBattery} kWh</span>
                 </div>
-                <div className="flex justify-between mb-1">
-                  <span>{t('settings.wltpRange')}:</span>
-                  <span className="font-medium">{selectedVehicle.wltpRange} km</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>{t('settings.wltpConsumption')}:</span>
-                  <span className="font-medium">{selectedVehicle.wltpConsumption} kWh/100km</span>
-                </div>
+                {unitSystem === 'imperial_us' ? (
+                  <>
+                    <div className="flex justify-between mb-1">
+                      <span>{t('settings.epaRange')}:</span>
+                      <span className="font-medium">{selectedVehicle.epaRange} mi</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>{t('settings.epaMpge')}:</span>
+                      <span className="font-medium">{selectedVehicle.epaMpge} MPGe</span>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-between mb-1">
+                      <span>{t('settings.wltpRange')}:</span>
+                      <span className="font-medium">{selectedVehicle.wltpRange} km</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span>{t('settings.wltpConsumption')}:</span>
+                      <span className="font-medium">{selectedVehicle.wltpConsumption} kWh/100km</span>
+                    </div>
+                  </>
+                )}
               </div>
             )}
             <div>
@@ -148,7 +163,12 @@ export function SettingsPage({
                 onChange={(e) => setElecConsFormat(e.target.value)}
                 className={`w-full px-3 py-2 rounded-lg text-sm focus:border-sky-500 outline-none ${darkMode ? 'bg-zinc-800 border-zinc-700 text-white' : 'bg-zinc-50 border-zinc-300 text-zinc-900'} border`}
               >
-                {(unitSystem.startsWith('imperial') ? ELECTRIC_CONSUMPTION_FORMATS.imperial : ELECTRIC_CONSUMPTION_FORMATS.metric).map(fmt => (
+                {(unitSystem === 'imperial_us'
+                  ? ELECTRIC_CONSUMPTION_FORMATS.imperial_us
+                  : unitSystem === 'imperial_uk'
+                    ? ELECTRIC_CONSUMPTION_FORMATS.imperial
+                    : ELECTRIC_CONSUMPTION_FORMATS.metric
+                ).map(fmt => (
                   <option key={fmt.id} value={fmt.id}>{fmt.label}</option>
                 ))}
               </select>
@@ -232,7 +252,14 @@ export function SettingsPage({
           <div>
             <h4 className={`font-semibold text-sm mb-2 ${darkMode ? 'text-sky-400' : 'text-sky-700'}`}>{t('settings.vehicleNotesTitle')}</h4>
             <ul className={`text-xs space-y-1 ${darkMode ? 'text-sky-400/80' : 'text-sky-600'}`}>
-              <li><span className="font-medium">WLTP</span>: {t('settings.noteWltp')}</li>
+              {unitSystem === 'imperial_us' ? (
+                <>
+                  <li><span className="font-medium">EPA</span>: {t('settings.noteEpa')}</li>
+                  <li><span className="font-medium">MPGe</span>: {t('settings.noteMpge')}</li>
+                </>
+              ) : (
+                <li><span className="font-medium">WLTP</span>: {t('settings.noteWltp')}</li>
+              )}
               <li><span className="font-medium">PB</span>: {t('settings.notePb')}</li>
               <li><span className="font-medium">PB+</span>: {t('settings.notePbPlus')}</li>
               <li><span className="font-medium">J1.1</span>: {t('settings.noteJ11')}</li>
