@@ -216,6 +216,9 @@ Contributions are welcome! Feel free to:
 
 ## Release History
 
+### v1.3.1-beta (February 2026)
+- **Bug fix**: Trips per Hour chart now shows all 24 hours (00-23) even when some hours have no trips
+
 ### v1.3.0-beta (January 2026)
 - **Data Merge**: Import new CSV files on top of existing data without duplicates
 - **Smart Deduplication**: Trips are fingerprinted by date, distance, and consumption to detect duplicates

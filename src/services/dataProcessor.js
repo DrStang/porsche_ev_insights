@@ -85,9 +85,13 @@ export function processUploadedData(sinceStartData, sinceChargeData) {
   const shortTrips = trips.filter(t => t.distance < 10).length;
 
   const hourMap = {};
+  // Initialize all 24 hours so chart shows complete x-axis
+  for (let i = 0; i < 24; i++) {
+    const h = String(i).padStart(2, '0');
+    hourMap[h] = { hour: h, trips: 0, distance: 0 };
+  }
   trips.forEach(t => {
     const h = String(t.hour).padStart(2, '0');
-    if (!hourMap[h]) hourMap[h] = { hour: h, trips: 0, distance: 0 };
     hourMap[h].trips++;
     hourMap[h].distance = precise.add(hourMap[h].distance, t.distance);
   });
