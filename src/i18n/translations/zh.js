@@ -214,6 +214,12 @@ export const zh = {
     downloadBackup: '下载备份',
     restoreBackup: '恢复备份',
 
+    // Theme settings
+    theme: '主题',
+    themeAuto: '自动（系统）',
+    themeLight: '浅色',
+    themeDark: '深色',
+
     // Privacy notice
     privacyNoticeTitle: '数据本地存储',
     privacyNoticeText: '您的行程数据永不离开您的设备。无服务器、无追踪、无数据收集。一切都在您的浏览器中本地处理和存储。'

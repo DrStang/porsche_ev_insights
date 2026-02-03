@@ -9,8 +9,7 @@ export function MobileSidebar({
   setActiveTab,
   showSettings,
   setShowSettings,
-  darkMode,
-  setDarkMode
+  darkMode
 }) {
   const { t } = useTranslation();
 
@@ -81,37 +80,22 @@ export function MobileSidebar({
           <div className={`my-4 border-t ${darkMode ? 'border-zinc-800' : 'border-zinc-200'}`} />
 
           {/* Settings Section */}
-          <div className="space-y-1">
-            <button
-              onClick={() => {
-                setShowSettings(!showSettings);
-                setMenuOpen(false);
-              }}
-              className={`w-full px-3 py-2.5 rounded-xl font-medium transition-all flex items-center gap-3 text-sm ${
-                showSettings
-                  ? 'bg-sky-500 text-white'
-                  : darkMode
-                    ? 'text-zinc-400 hover:bg-zinc-800 hover:text-white'
-                    : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900'
-              }`}
-            >
-              {icons.settings}
-              <span>{t('common.settings')}</span>
-            </button>
-
-            {/* Dark mode toggle */}
-            <button
-              onClick={() => setDarkMode(!darkMode)}
-              className={`w-full px-3 py-2.5 rounded-xl font-medium transition-all flex items-center gap-3 text-sm ${
-                darkMode
+          <button
+            onClick={() => {
+              setShowSettings(!showSettings);
+              setMenuOpen(false);
+            }}
+            className={`w-full px-3 py-2.5 rounded-xl font-medium transition-all flex items-center gap-3 text-sm ${
+              showSettings
+                ? 'bg-sky-500 text-white'
+                : darkMode
                   ? 'text-zinc-400 hover:bg-zinc-800 hover:text-white'
                   : 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900'
-              }`}
-            >
-              {darkMode ? icons.moon : icons.sun}
-              <span>{darkMode ? t('sidebar.darkMode') : t('sidebar.lightMode')}</span>
-            </button>
-          </div>
+            }`}
+          >
+            {icons.settings}
+            <span>{t('common.settings')}</span>
+          </button>
 
           {/* Privacy badges */}
           <div className="mt-4 pt-4 border-t border-zinc-700 space-y-2">

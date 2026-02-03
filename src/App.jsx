@@ -73,16 +73,35 @@ export default function App() {
   const [showPorscheConnect, setShowPorscheConnect] = useState(false); // Porsche Connect modal
   const [autoSyncStatus, setAutoSyncStatus] = useState(null); // 'checking', 'syncing', 'done', 'new_data', null
   const [liveVehicleData, setLiveVehicleData] = useState(null); // Live vehicle data from Porsche Connect API
-  const [darkMode, setDarkMode] = useState(() => {
-    const saved = safeStorage.get('taycan_theme');
-    return saved !== null ? saved : true;
+  // Theme mode: 'light', 'dark', 'auto'
+  const [themeMode, setThemeMode] = useState(() => {
+    const saved = safeStorage.get('taycan_theme_mode');
+    return saved || 'auto';
   });
+
+  // Compute actual dark mode based on theme mode
+  const darkMode = themeMode === 'auto'
+    ? window.matchMedia('(prefers-color-scheme: dark)').matches
+    : themeMode === 'dark';
+
+  // Listen for system theme changes when in auto mode
+  useEffect(() => {
+    if (themeMode !== 'auto') return;
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const handler = () => {
+      // Force re-render when system theme changes
+      setThemeMode(prev => prev); // This triggers a re-render
+    };
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, [themeMode]);
 
   // Apply theme to document
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
-    safeStorage.set('taycan_theme', darkMode);
-  }, [darkMode]);
+    safeStorage.set('taycan_theme_mode', themeMode);
+  }, [darkMode, themeMode]);
 
   useEffect(() => {
     let savedData = safeStorage.get(STORAGE_KEYS.DATA);
@@ -1441,7 +1460,6 @@ export default function App() {
         setActiveTab={setActiveTab}
         showSettings={showSettings}
         setShowSettings={setShowSettings}
-        setDarkMode={setDarkMode}
       />
 
       {/* Upload Modal */}
@@ -1486,7 +1504,6 @@ export default function App() {
           setActiveTab={setActiveTab}
           showSettings={showSettings}
           setShowSettings={setShowSettings}
-          setDarkMode={setDarkMode}
         />
 
         {/* Main Content */}
@@ -1495,6 +1512,8 @@ export default function App() {
           {showSettings && (
             <SettingsPage
               darkMode={darkMode}
+              themeMode={themeMode}
+              setThemeMode={setThemeMode}
               appData={appData}
               unitSystem={unitSystem}
               setUnitSystem={setUnitSystem}

@@ -214,6 +214,12 @@ export const de = {
     downloadBackup: 'Sicherung herunterladen',
     restoreBackup: 'Sicherung wiederherstellen',
 
+    // Theme settings
+    theme: 'Design',
+    themeAuto: 'Auto (System)',
+    themeLight: 'Hell',
+    themeDark: 'Dunkel',
+
     // Privacy notice
     privacyNoticeTitle: 'Alle Daten lokal gespeichert',
     privacyNoticeText: 'Ihre Fahrtdaten verlassen niemals Ihr Gerät. Keine Server, kein Tracking, keine Datenerfassung. Alles wird lokal in Ihrem Browser verarbeitet und gespeichert.'

@@ -298,9 +298,9 @@ export function PorscheConnectModal({
                 {t('porscheConnect.captchaDescription')}
               </p>
 
-              {/* Captcha image */}
+              {/* Captcha image - always light background for visibility */}
               {captchaImage && (
-                <div className={`p-4 rounded-xl ${darkMode ? 'bg-zinc-800' : 'bg-zinc-100'} flex justify-center`}>
+                <div className="p-4 rounded-xl bg-white flex justify-center">
                   <img
                     src={captchaImage}
                     alt="Captcha"

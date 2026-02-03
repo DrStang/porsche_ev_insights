@@ -214,6 +214,12 @@ export const nl = {
     downloadBackup: 'Back-up downloaden',
     restoreBackup: 'Back-up herstellen',
 
+    // Theme settings
+    theme: 'Thema',
+    themeAuto: 'Auto (Systeem)',
+    themeLight: 'Licht',
+    themeDark: 'Donker',
+
     // Privacy notice
     privacyNoticeTitle: 'Gegevens lokaal opgeslagen',
     privacyNoticeText: 'Je ritgegevens verlaten nooit je apparaat. Geen servers, geen tracking, geen gegevensverzameling. Alles wordt lokaal in je browser verwerkt en opgeslagen.'

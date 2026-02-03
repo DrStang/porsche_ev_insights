@@ -214,6 +214,12 @@ export const es = {
     downloadBackup: 'Descargar copia',
     restoreBackup: 'Restaurar copia',
 
+    // Theme settings
+    theme: 'Tema',
+    themeAuto: 'Auto (Sistema)',
+    themeLight: 'Claro',
+    themeDark: 'Oscuro',
+
     // Privacy notice
     privacyNoticeTitle: 'Datos almacenados localmente',
     privacyNoticeText: 'Tus datos de viaje nunca salen de tu dispositivo. Sin servidores, sin rastreo, sin recolección de datos. Todo se procesa y almacena localmente en tu navegador.'

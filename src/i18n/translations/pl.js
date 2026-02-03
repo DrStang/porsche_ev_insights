@@ -214,6 +214,12 @@ export const pl = {
     downloadBackup: 'Pobierz kopię zapasową',
     restoreBackup: 'Przywróć kopię zapasową',
 
+    // Theme settings
+    theme: 'Motyw',
+    themeAuto: 'Auto (System)',
+    themeLight: 'Jasny',
+    themeDark: 'Ciemny',
+
     // Privacy notice
     privacyNoticeTitle: 'Dane przechowywane lokalnie',
     privacyNoticeText: 'Twoje dane o podróżach nigdy nie opuszczają urządzenia. Brak serwerów, śledzenia, zbierania danych. Wszystko jest przetwarzane i przechowywane lokalnie w przeglądarce.'

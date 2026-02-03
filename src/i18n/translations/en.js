@@ -219,6 +219,12 @@ export const en = {
     downloadBackup: 'Download Backup',
     restoreBackup: 'Restore Backup',
 
+    // Theme settings
+    theme: 'Theme',
+    themeAuto: 'Auto (System)',
+    themeLight: 'Light',
+    themeDark: 'Dark',
+
     // Privacy notice
     privacyNoticeTitle: 'All Data Stored Locally',
     privacyNoticeText: 'Your trip data never leaves your device. No servers, no tracking, no data collection. Everything is processed and stored locally in your browser.'

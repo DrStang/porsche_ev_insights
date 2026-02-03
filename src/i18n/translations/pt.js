@@ -219,6 +219,12 @@ export const pt = {
     downloadBackup: 'Descarregar Backup',
     restoreBackup: 'Restaurar Backup',
 
+    // Theme settings
+    theme: 'Tema',
+    themeAuto: 'Auto (Sistema)',
+    themeLight: 'Claro',
+    themeDark: 'Escuro',
+
     // Privacy notice
     privacyNoticeTitle: 'Dados Armazenados Localmente',
     privacyNoticeText: 'Os seus dados de viagem nunca saem do seu dispositivo. Sem servidores, sem rastreamento, sem recolha de dados. Tudo é processado e armazenado localmente no seu navegador.'

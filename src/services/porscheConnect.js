@@ -7,9 +7,10 @@
 
 import { PORSCHE_EV_MODELS } from '../constants/porscheEvModels';
 
-// In production (Vercel), API routes are at /api/*
-// In development, they're at localhost:3001/api/*
+// In production (Vercel), API routes are at /api/porsche/*
+// In development, they're at localhost:3001/api/* (different path structure)
 const API_BASE = import.meta.env.DEV ? 'http://localhost:3001' : '';
+const IS_DEV = import.meta.env.DEV;
 
 // Storage keys for session persistence
 const SESSION_KEY = 'porsche_connect_session';
@@ -66,7 +67,8 @@ export function clearSession() {
  */
 export async function checkServerAvailable() {
   try {
-    const response = await fetch(`${API_BASE}/api/health`, {
+    const healthUrl = IS_DEV ? `${API_BASE}/api/health` : `${API_BASE}/api/porsche/health`;
+    const response = await fetch(healthUrl, {
       method: 'GET',
       signal: AbortSignal.timeout(5000)
     });
@@ -88,26 +90,42 @@ export async function checkServerAvailable() {
 export async function login(email, password, captcha = null) {
   const body = { email, password };
 
-  // Add captcha if provided (using session-based approach for serverless)
-  if (captcha?.code && captcha?.session) {
-    body.captchaCode = captcha.code;
-    body.captchaSession = captcha.session;
+  // Add captcha if provided
+  // Dev server uses captchaState, Vercel uses captchaSession (stateless)
+  if (captcha?.code) {
+    if (IS_DEV) {
+      body.captchaCode = captcha.code;
+      body.captchaState = captcha.session; // Dev server uses state-based approach
+    } else {
+      body.captchaCode = captcha.code;
+      body.captchaSession = captcha.session; // Vercel uses stateless session
+    }
   }
 
-  const response = await fetch(`${API_BASE}/api/porsche/login`, {
+  const loginUrl = IS_DEV ? `${API_BASE}/api/auth/login` : `${API_BASE}/api/porsche/login`;
+  const response = await fetch(loginUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body)
   });
 
+  // Handle non-JSON responses (e.g., HTML error pages)
+  const contentType = response.headers.get('content-type');
+  if (!contentType || !contentType.includes('application/json')) {
+    const text = await response.text();
+    console.error('Non-JSON response:', text.slice(0, 500));
+    throw new Error('Server returned an invalid response');
+  }
+
   const data = await response.json();
 
   // Handle captcha requirement
+  // Dev server returns captchaState, Vercel returns captchaSession
   if (response.status === 400 && data.captchaRequired) {
     return {
       captchaRequired: true,
       captchaImage: data.captchaImage,
-      captchaSession: data.captchaSession
+      captchaSession: data.captchaSession || data.captchaState // Support both
     };
   }
 
@@ -128,7 +146,8 @@ export async function refreshToken() {
   if (!sessionId) return false;
 
   try {
-    const response = await fetch(`${API_BASE}/api/porsche/refresh`, {
+    const refreshUrl = IS_DEV ? `${API_BASE}/api/auth/refresh` : `${API_BASE}/api/porsche/refresh`;
+    const response = await fetch(refreshUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ sessionId })
@@ -156,7 +175,8 @@ export async function logout() {
   const sessionId = getStoredSession();
   if (sessionId) {
     try {
-      await fetch(`${API_BASE}/api/porsche/logout`, {
+      const logoutUrl = IS_DEV ? `${API_BASE}/api/auth/logout` : `${API_BASE}/api/porsche/logout`;
+      await fetch(logoutUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sessionId })
@@ -216,7 +236,8 @@ async function apiRequest(endpoint) {
  * @returns {Promise<Array<Vehicle>>}
  */
 export async function getVehicles() {
-  return apiRequest('/api/porsche/vehicles');
+  const endpoint = IS_DEV ? '/api/vehicles' : '/api/porsche/vehicles';
+  return apiRequest(endpoint);
 }
 
 /**
@@ -225,7 +246,8 @@ export async function getVehicles() {
  * @returns {Promise<VehicleOverview>}
  */
 export async function getVehicleOverview(vin) {
-  return apiRequest(`/api/porsche/vehicle/${vin}/overview`);
+  const endpoint = IS_DEV ? `/api/vehicles/${vin}/overview` : `/api/porsche/vehicle/${vin}/overview`;
+  return apiRequest(endpoint);
 }
 
 /**
@@ -235,7 +257,8 @@ export async function getVehicleOverview(vin) {
  * @returns {Promise<TripStatistics>}
  */
 export async function getTripStatistics(vin, type = 'short') {
-  return apiRequest(`/api/porsche/vehicle/${vin}/trips?type=${type}`);
+  const endpoint = IS_DEV ? `/api/vehicles/${vin}/trips?type=${type}` : `/api/porsche/vehicle/${vin}/trips?type=${type}`;
+  return apiRequest(endpoint);
 }
 
 /**
@@ -244,7 +267,8 @@ export async function getTripStatistics(vin, type = 'short') {
  * @returns {Promise<VehicleStatus>}
  */
 export async function getVehicleStatus(vin) {
-  return apiRequest(`/api/porsche/vehicle/${vin}/status`);
+  const endpoint = IS_DEV ? `/api/vehicles/${vin}/status` : `/api/porsche/vehicle/${vin}/status`;
+  return apiRequest(endpoint);
 }
 
 /**
@@ -253,7 +277,8 @@ export async function getVehicleStatus(vin) {
  * @returns {Promise<VehicleCapabilities>}
  */
 export async function getVehicleCapabilities(vin) {
-  return apiRequest(`/api/porsche/vehicle/${vin}/capabilities`);
+  const endpoint = IS_DEV ? `/api/vehicles/${vin}/capabilities` : `/api/porsche/vehicle/${vin}/capabilities`;
+  return apiRequest(endpoint);
 }
 
 /**
@@ -262,7 +287,8 @@ export async function getVehicleCapabilities(vin) {
  * @returns {Promise<VehiclePictures>}
  */
 export async function getVehiclePictures(vin) {
-  return apiRequest(`/api/porsche/vehicle/${vin}/pictures`);
+  const endpoint = IS_DEV ? `/api/vehicles/${vin}/pictures` : `/api/porsche/vehicle/${vin}/pictures`;
+  return apiRequest(endpoint);
 }
 
 /**

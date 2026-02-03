@@ -214,6 +214,12 @@ export const ja = {
     downloadBackup: 'バックアップをダウンロード',
     restoreBackup: 'バックアップを復元',
 
+    // Theme settings
+    theme: 'テーマ',
+    themeAuto: '自動（システム）',
+    themeLight: 'ライト',
+    themeDark: 'ダーク',
+
     // Privacy notice
     privacyNoticeTitle: 'データはローカル保存',
     privacyNoticeText: 'トリップデータはデバイスから離れません。サーバーなし、追跡なし、データ収集なし。すべてブラウザ内でローカル処理・保存されます。'

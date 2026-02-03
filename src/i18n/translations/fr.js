@@ -214,6 +214,12 @@ export const fr = {
     downloadBackup: 'Télécharger sauvegarde',
     restoreBackup: 'Restaurer sauvegarde',
 
+    // Theme settings
+    theme: 'Thème',
+    themeAuto: 'Auto (Système)',
+    themeLight: 'Clair',
+    themeDark: 'Sombre',
+
     // Privacy notice
     privacyNoticeTitle: 'Données stockées localement',
     privacyNoticeText: 'Vos données de trajet ne quittent jamais votre appareil. Pas de serveurs, pas de suivi, pas de collecte de données. Tout est traité et stocké localement dans votre navigateur.'

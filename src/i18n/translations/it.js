@@ -214,6 +214,12 @@ export const it = {
     downloadBackup: 'Scarica backup',
     restoreBackup: 'Ripristina backup',
 
+    // Theme settings
+    theme: 'Tema',
+    themeAuto: 'Auto (Sistema)',
+    themeLight: 'Chiaro',
+    themeDark: 'Scuro',
+
     // Privacy notice
     privacyNoticeTitle: 'Dati memorizzati localmente',
     privacyNoticeText: 'I tuoi dati di viaggio non lasciano mai il tuo dispositivo. Nessun server, nessun tracciamento, nessuna raccolta dati. Tutto viene elaborato e memorizzato localmente nel tuo browser.'
