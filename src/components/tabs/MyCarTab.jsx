@@ -336,7 +336,8 @@ function TirePressure({ tirePressure, darkMode, units }) {
 }
 
 // Charging Component - Matches StatusCard style
-function Charging({ chargingSummary, chargingRate, darkMode, t }) {
+function Charging({ chargingSummary, chargingRate, darkMode }) {
+  const { t } = useTranslation();
   const isCharging = chargingSummary?.status === 'CHARGING';
   const powerKw = chargingRate?.chargingPower != null ? chargingRate.chargingPower : null;
   const chargeToPercent = chargingSummary?.mode === 'DIRECT'
@@ -358,7 +359,7 @@ function Charging({ chargingSummary, chargingRate, darkMode, t }) {
     ? (darkMode ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-100 text-emerald-600')
     : (darkMode ? 'bg-zinc-500/20 text-zinc-400' : 'bg-zinc-100 text-zinc-500');
 
-  const details = isCharging && [chargeToPercent != null && `${t('myCar.chargeTo')} ${chargeToPercent}%`, doneAtLabel].filter(Boolean);
+  const details = isCharging ? [chargeToPercent != null && `${t('myCar.chargeTo')} ${chargeToPercent}%`, doneAtLabel].filter(Boolean) : [];
 
   const mainValue = isCharging
     ? (powerKw != null ? `${Number(powerKw).toFixed(1)} kW` : t('myCar.chargingStatus'))
@@ -563,7 +564,6 @@ export function MyCarTab({
             chargingSummary={status?.chargingSummary}
             chargingRate={status?.chargingRate}
             darkMode={darkMode}
-            t={t}
           />
         </div>
 
