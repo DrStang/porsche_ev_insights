@@ -4,6 +4,9 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    host: '0.0.0.0'
+  },    
   plugins: [react(), tailwindcss()],
   // base: '/porsche_ev_insights/', // Only needed for GitHub Pages - Vercel uses root
 })
