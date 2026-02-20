@@ -13,7 +13,13 @@ export function InsightsTab({
   unitSystem
 }) {
   const { t } = useTranslation();
-
+  if (!predictions || !benchmarks || !drivingInsights) {
+    return (
+      <div className={`p-8 text-center rounded-xl border ${darkMode ? 'bg-zinc-900/50 border-zinc-800 text-zinc-400' : 'bg-white border-zinc-200 text-zinc-500'}`}>
+        <p>Not enough data yet - import at least 1 month of trips to see insights.</p>
+      </div>
+    );
+  }  
   return (
     <div className="space-y-5">
       {/* Driving Profile Banner */}
