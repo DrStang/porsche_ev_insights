@@ -9,8 +9,9 @@ import { PORSCHE_EV_MODELS } from '../constants/porscheEvModels';
 
 // In production (Vercel), API routes are at /api/porsche/*
 // In development, they're at localhost:3001/api/* (different path structure)
-const API_BASE = 'https://porscheevinsights-production.up.railway.app';
-const IS_DEV = true;
+//const API_BASE = 'https://porscheevinsights-production.up.railway.app';
+const API_BASE = '';
+const IS_DEV = false;
 
 // Storage keys for session persistence
 const SESSION_KEY = 'porsche_connect_session';
